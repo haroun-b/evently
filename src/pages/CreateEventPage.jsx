@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import NavbarBottom from "../components/NavbarBottom";
 
 const CreateEventPage = () => {
   return (
-    <div>CreateEventPage</div>
-  )
-}
+    <div>
+      <h1>CreateEventPage</h1>
+      <NavbarBottom />
+    </div>
+  );
+};
 
-export default CreateEventPage
+export default CreateEventPage;

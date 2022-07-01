@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+import NavbarBottom from "../components/NavbarBottom";
 
 const SearchPage = () => {
   return (
-    <div>SearchPage</div>
-  )
-}
+    <div>
+      <h1>Search page</h1>
+      <NavbarBottom />
+    </div>
+  );
+};
 
-export default SearchPage
+export default SearchPage;
