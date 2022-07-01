@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile */
+.login-container {
+  display: flex;
+  justify-content: center;
+}
+
+.login-form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+/* Tablet  */
+@media (min-width: 600px) {
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+}
