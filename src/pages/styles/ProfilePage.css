@@ -1,0 +1,36 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-page header {
+  border: 1px solid black;
+  
+}
+
+.profile-page header button {
+  position: absolute;
+  right: 0;
+  margin: 5px;
+}
+
+.profile-page header picture {
+  border: 1px solid black;
+  height: 100px;
+}
+
+.profile-page main {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-page-bio-interest {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.profile-page-bio-interest div{
+
+  margin: 10px 0;
+}

@@ -1,0 +1,21 @@
+.chat-input {
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+
+  position: fixed;
+  bottom: 55px;
+  left: 0;
+  width: 100vw;
+  z-index: 1;
+
+  margin-bottom: 5px;
+}
+
+.chat-input input[type="text"] {
+  width: 70vw;
+}
+
+.chat-input input[type="submit"] {
+  width: 20vw;
+}

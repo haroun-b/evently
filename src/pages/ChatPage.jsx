@@ -1,9 +1,20 @@
-import React from 'react'
+import React from "react";
+import NavbarBottom from "../components/NavbarBottom";
+import MessagesBox from "../components/MessagesBox";
+import ChatBar from "../components/ChatBar";
+import ChatInput from "../components/ChatInput";
 
 const ChatPage = () => {
   return (
-    <div>ChatPage</div>
-  )
-}
+    <div>
+      <ChatBar />
 
-export default ChatPage
+      <h1>ChatPage</h1>
+      <MessagesBox />
+      <ChatInput />
+      <NavbarBottom />
+    </div>
+  );
+};
+
+export default ChatPage;

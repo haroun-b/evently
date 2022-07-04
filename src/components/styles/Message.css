@@ -1,0 +1,27 @@
+.message {
+  border: 1px solid black;
+
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  max-width: 70vw;
+
+  margin: 5px;
+}
+
+.message div {
+  padding: 3px;
+}
+
+.author {
+  text-align: left;
+}
+
+.core-message {
+  text-align: left;
+}
+
+.time {
+  text-align: right;
+}

@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile */
+.event-card {
+  border: 1px solid black;
+  border-radius: 3px;
+  margin: 10px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.event-card-main-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.event-card-other-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.event-card-creator {
+  display: flex;
+}
+
+/* Tablet  */
+@media (min-width: 600px) {
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+}
