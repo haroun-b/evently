@@ -1,13 +1,13 @@
 import React from "react";
 import NavbarBottom from "../components/NavbarBottom";
 import Messages from "../components/Messages";
-import ChatNavbar from "../components/ChatNavbar";
+import ChatBar from "../components/ChatBar";
 import ChatInput from "../components/ChatInput";
 
 const ChatPage = () => {
   return (
     <div>
-      <ChatNavbar />
+      <ChatBar />
 
       <h1>ChatPage</h1>
       <Messages />

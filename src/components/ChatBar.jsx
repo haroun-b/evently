@@ -1,8 +1,8 @@
 import React from "react";
 
-import './styles/ChatNavbar.css'
+import "./styles/ChatBar.css";
 
-const ChatNavbar = () => {
+const ChatBar = () => {
   return (
     <div className="chat-navbar">
       <picture>
@@ -13,4 +13,4 @@ const ChatNavbar = () => {
   );
 };
 
-export default ChatNavbar;
+export default ChatBar;
