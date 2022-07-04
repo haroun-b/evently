@@ -16,8 +16,10 @@ const AttendeeCard = () => {
       </div>
       <div className="attendee-card-status">
         <form>
-          <select name="attendee-status" id="pet-select">
-            <option value="Pending">Pending</option>
+          <select name="attendee-status" id="attendee-status">
+            <option value="" disabled selected>
+              Pending
+            </option>
             <option value="Approved">Approved</option>
             <option value="Rejected">Rejected</option>
           </select>

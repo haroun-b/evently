@@ -2,12 +2,14 @@ import React from "react";
 
 import "./styles/FilterBarMyEvents.css";
 
-const FilterBarMyEvents = () => {
+const FilterBarMyEvents = ({ buttons }) => {
+  console.log(buttons);
+
   return (
     <div className="filter-bar-myevents-container">
-      <button>All</button>
-      <button>Created</button>
-      <button>Attending</button>
+      {buttons.map((button) => {
+        return <button>{button}</button>;
+      })}
     </div>
   );
 };
