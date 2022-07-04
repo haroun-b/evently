@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+
+import "./styles/FilterBarMyEvents.css";
 
 const FilterBarMyEvents = () => {
   return (
-    <div>FilterBarMyEvents</div>
-  )
-}
+    <div className="filter-bar-myevents-container">
+      <button>All</button>
+      <button>Created</button>
+      <button>Attending</button>
+    </div>
+  );
+};
 
-export default FilterBarMyEvents
+export default FilterBarMyEvents;
