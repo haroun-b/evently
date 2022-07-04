@@ -8,6 +8,7 @@ import CreateEventPage from "./pages/CreateEventPage";
 import ProfilePage from "./pages/ProfilePage";
 import AttendeesPage from "./pages/AttendeesPage";
 import ChatPage from "./pages/ChatPage";
+import EventPage from "./pages/EventPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           {/* Testing purpose */}
           <Route path="/attendees" element={<AttendeesPage />} />
           <Route path="/chat" element={<ChatPage />} />
+          <Route path="/event" element={<EventPage />} />
         </Routes>
       </BrowserRouter>
     </div>
