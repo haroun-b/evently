@@ -1,0 +1,14 @@
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.left {
+  display: flex;
+  justify-content: left;
+}
+
+.right {
+  display: flex;
+  justify-content: right;
+}
