@@ -9,6 +9,8 @@ const MyEventsPage = () => {
       <FilterBarMyEvents />
       <h1>My Events</h1>
       <EventCard />
+      <EventCard />
+      <EventCard />
       <NavbarBottom />
     </div>
   );

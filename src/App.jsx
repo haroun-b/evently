@@ -6,6 +6,7 @@ import MyEventsPage from "./pages/MyEventsPage";
 import SearchPage from "./pages/SearchPage";
 import CreateEventPage from "./pages/CreateEventPage";
 import ProfilePage from "./pages/ProfilePage";
+import AttendeesPage from "./pages/AttendeesPage";
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
           <Route path="/search-events" element={<SearchPage />} />
           <Route path="/create-event" element={<CreateEventPage />} />
           <Route path="/:username" element={<ProfilePage />} />
+
+          {/* Testing purpose */}
+          <Route path="/attendees" element={<AttendeesPage />} />
         </Routes>
       </BrowserRouter>
     </div>

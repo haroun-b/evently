@@ -1,0 +1,20 @@
+.attendee-card-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px 0;
+  margin: 5px;
+}
+
+.attendee-card-image {
+}
+
+.attendee-card-info {
+  text-align: left;
+}
+
+.attendee-card-status {
+}
