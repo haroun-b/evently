@@ -1,6 +1,6 @@
 import React from "react";
 import NavbarBottom from "../components/NavbarBottom";
-import Messages from "../components/Messages";
+import MessagesBox from "../components/MessagesBox";
 import ChatBar from "../components/ChatBar";
 import ChatInput from "../components/ChatInput";
 
@@ -10,7 +10,7 @@ const ChatPage = () => {
       <ChatBar />
 
       <h1>ChatPage</h1>
-      <Messages />
+      <MessagesBox />
       <ChatInput />
       <NavbarBottom />
     </div>

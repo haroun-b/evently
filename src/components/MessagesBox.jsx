@@ -1,9 +1,9 @@
 import React from "react";
-import Message from "../components/Message";
+import Message from "./Message";
 
-import "./styles/Messages.css";
+import "./styles/MessagesBox.css";
 
-const Messages = () => {
+const MessagesBox = () => {
   return (
     <div className="messages">
       <div className="left">
@@ -16,4 +16,4 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+export default MessagesBox;
