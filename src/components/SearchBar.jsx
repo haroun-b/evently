@@ -8,6 +8,7 @@ import Slider from "@mui/material/Slider";
 import categories from "../utils/categories.data";
 import EventCard from "./EventCard";
 
+// TODO: breakdown searchbar into components
 const SearchBar = ({setEvents}) => {
   const initialState = {
     longitude: undefined,
@@ -42,9 +43,10 @@ const SearchBar = ({setEvents}) => {
 
     axiosInstance.get(`/events/?${reqQuery}`)
       .then(({ data }) => {
+        console.log(data)
         setEvents(
-          data.events.map(({ title, price, description, startAt, endAt }) => {
-            return <EventCard {...{ title, price, description, startAt, endAt}} />
+          data.events.map((event) => {
+            return <EventCard {...event} />
           })
         )
       })

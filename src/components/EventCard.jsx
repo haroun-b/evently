@@ -2,25 +2,36 @@ import React from "react";
 
 import "./styles/EventCard.css";
 
-const EventCard = ({title, price, description, startAt, endAt}) => {
+const EventCard = (
+  {
+    title,
+    price,
+    imageUrl,
+    description,
+    startAt,
+    endAt,
+    creator,
+    address: {city}
+  }
+) => {
   return (
     <div className="event-card">
       <div className="event-card-main-info">
-        <p>Starts at: {startAt}</p>
-        <p>Ends at: {endAt}</p>
-        <p>City</p>
-        <h3>Title: {title}</h3>
-        <p>Description: {description}</p>
+        <p>{startAt.slice(0, -8)}</p>
+        <p>{endAt.slice(0, -8)}</p>
+        <p>{city}</p>
+        <h3>{title}</h3>
+        <p>{description}</p>
       </div>
       <div className="event-card-other-info">
-        <p>Price: {price}</p>
+        <p>{price || 'Free'}</p>
         <picture>
-          <img src="" alt="eventPic" />
+          <img src={imageUrl} alt="eventPic" />
         </picture>
         <div className="event-card-creator">
-          <p>Name</p>
+          <p>{creator.name}</p>
           <picture>
-            <img src="" alt="creatorPic" />
+            <img src={creator.imageUrl} alt="creatorPic" />
           </picture>
         </div>
       </div>
