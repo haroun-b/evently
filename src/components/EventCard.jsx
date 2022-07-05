@@ -99,7 +99,6 @@ const EventCard = (
 
       <CardActions
         onClick={() => { navigate(`/${creator.username}`)}}
-        onhove
       >
         <Stack
           direction="row"

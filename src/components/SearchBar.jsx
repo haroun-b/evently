@@ -1,15 +1,19 @@
+import * as React from 'react';
 import { useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
-
-import MyLocationIcon from "@mui/icons-material/MyLocation";
-import TuneIcon from "@mui/icons-material/Tune";
-import Slider from "@mui/material/Slider";
 
 import categories from "../utils/categories.data";
 import EventCard from "./EventCard";
 
+import MyLocationIcon from "@mui/icons-material/MyLocation";
+import TuneIcon from "@mui/icons-material/Tune";
+import Slider from "@mui/material/Slider";
+import { Stack, TextField } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SearchIcon from '@mui/icons-material/Search';
+
 // TODO: breakdown searchbar into components
-const SearchBar = ({setEvents}) => {
+const SearchBar = ({ setEvents }) => {
   const initialState = {
     longitude: undefined,
     latitude: undefined,
@@ -26,6 +30,7 @@ const SearchBar = ({setEvents}) => {
 
   const [filterQuery, setFilterQuery] = useState(initialState);
   const [filtersAreOpen, setFiltersAreOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     setFilterQuery({ ...filterQuery, [e.target.name]: e.target.value });
@@ -33,7 +38,8 @@ const SearchBar = ({setEvents}) => {
 
   function handleSubmit(e) {
     e.preventDefault();
-
+    setLoading(true);
+    
     const reqQuery = Object.entries(filterQuery)
       .filter(([key, value]) => value !== undefined && value.length !== 0)
       .map(([key, value]) => `${key}=${value}`)
@@ -49,9 +55,12 @@ const SearchBar = ({setEvents}) => {
             return <EventCard {...event} />
           })
         )
+
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        setLoading(false);
       });
   }
 
@@ -82,19 +91,26 @@ const SearchBar = ({setEvents}) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="search">
-        <input
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+      >
+        <TuneIcon
+          onClick={() => setFiltersAreOpen(!filtersAreOpen)}
+        />
+        <TextField
+          label="Search"
           type="search"
           name="search"
-          placeholder="Find upcoming events"
           value={search}
           onChange={e => handleChange(e)}
         />
 
-        <input
-          type="text"
+        <TextField
+          label="City"
           name="city"
-          placeholder="city"
           value={city}
           onChange={e => handleChange(e)}
         />
@@ -102,17 +118,25 @@ const SearchBar = ({setEvents}) => {
         <MyLocationIcon
           onClick={() => getCurrentLocation()}
         />
-      </div>
+
+        <LoadingButton
+          onClick={handleSubmit}
+          endIcon={<SearchIcon />}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+        >
+          Search
+        </LoadingButton>
+      </Stack>
 
       <div className="filter-bar">
-        <TuneIcon
-          onClick={() => setFiltersAreOpen(!filtersAreOpen)}
-        />
+
 
         {
           filtersAreOpen
           &&
-          <div className="filters">
+          <Stack>
             <label htmlFor="searchRadius">Search radius</label>
             <Slider
               size="small"
@@ -206,11 +230,9 @@ const SearchBar = ({setEvents}) => {
               <label htmlFor="duoOnly">One on one only</label>
             </fieldset>
 
-          </div>
+          </Stack>
         }
       </div>
-
-      <input type="submit" value="Send" name="submit" />
     </form>
   );
 };
