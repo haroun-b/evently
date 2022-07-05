@@ -2,17 +2,18 @@ import React from "react";
 
 import "./styles/EventCard.css";
 
-const EventCard = () => {
+const EventCard = ({title, price, description, startAt, endAt}) => {
   return (
     <div className="event-card">
       <div className="event-card-main-info">
-        <p>Date Time</p>
+        <p>Starts at: {startAt}</p>
+        <p>Ends at: {endAt}</p>
         <p>City</p>
-        <h3>Title</h3>
-        <p>Description</p>
+        <h3>Title: {title}</h3>
+        <p>Description: {description}</p>
       </div>
       <div className="event-card-other-info">
-        <p>Price</p>
+        <p>Price: {price}</p>
         <picture>
           <img src="" alt="eventPic" />
         </picture>
