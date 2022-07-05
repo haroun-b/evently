@@ -9,16 +9,16 @@ import categories from "../utils/categories.data";
 
 const FilterBarSearch = () => {
   const initialState = {
-    longitude: null,
-    latitude: null,
+    longitude: undefined,
+    latitude: undefined,
     searchRadius: 5,
     city: "",
     startAfter: new Date().toISOString(),
     endBefore: "",
-    maxPrice: null,
+    maxPrice: undefined,
     category: "",
     search: "",
-    requiresApproval: false,
+    requiresApproval: "",
     isGroupEvent: "",
   }
 
@@ -33,7 +33,7 @@ const FilterBarSearch = () => {
     e.preventDefault();
 
     const reqQuery = Object.entries(filterQuery)
-      .filter(([key, value]) => value !== null && value.length !== 0)
+      .filter(([key, value]) => value !== undefined && value.length !== 0)
       .map(([key, value]) => `${key}=${value}`)
       .join(`&`);
 
