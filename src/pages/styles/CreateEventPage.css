@@ -1,0 +1,11 @@
+.create-event-form {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+
+  text-align: left;
+}
+
+.create-event-form > * {
+  margin: 2px 0;
+}
