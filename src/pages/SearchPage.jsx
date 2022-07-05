@@ -5,8 +5,8 @@ import FilterBarSearch from "../components/FilterBarSearch";
 const SearchPage = () => {
   return (
     <div>
-      <FilterBarSearch />
       <h1>Search page</h1>
+      <FilterBarSearch />
       <NavbarBottom />
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavbarBottom from "../components/NavbarBottom";
 import FormField from "../components/FormField";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../utils/axiosInstance";
 
 import "./styles/CreateEventPage.css";
 
