@@ -73,7 +73,17 @@ const EventPage = () => {
     }
   };
 
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    const deleteAttendanceUrl = `/events/${params.id}/attendees`;
+    // Create the event
+    try {
+      axiosInstance.delete(deleteAttendanceUrl).then((response) => {
+        console.log(response);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleChat = () => {};
 
