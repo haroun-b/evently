@@ -6,8 +6,9 @@ import TuneIcon from "@mui/icons-material/Tune";
 import Slider from "@mui/material/Slider";
 
 import categories from "../utils/categories.data";
+import EventCard from "./EventCard";
 
-const FilterBarSearch = () => {
+const SearchBar = ({setEvents}) => {
   const initialState = {
     longitude: undefined,
     latitude: undefined,
@@ -41,7 +42,11 @@ const FilterBarSearch = () => {
 
     axiosInstance.get(`/events/?${reqQuery}`)
       .then(({ data }) => {
-        console.log(data);
+        setEvents(
+          data.events.map(({ title, price, description, startAt, endAt }) => {
+            return <EventCard {...{ title, price, description, startAt, endAt}} />
+          })
+        )
       })
       .catch((err) => {
         console.error(err);
@@ -208,4 +213,4 @@ const FilterBarSearch = () => {
   );
 };
 
-export default FilterBarSearch;
+export default SearchBar;
