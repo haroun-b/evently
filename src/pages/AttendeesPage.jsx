@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavbarBottom from "../components/NavbarBottom";
 import AttendeeCard from "../components/AttendeeCard";
 import FilterBar from "../components/FilterBar";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../utils/axiosInstance";
 
 const AttendeesPage = () => {
 

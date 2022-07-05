@@ -5,7 +5,6 @@
 
 .profile-page header {
   border: 1px solid black;
-  
 }
 
 .profile-page header button {
@@ -30,7 +29,20 @@
   text-align: left;
 }
 
-.profile-page-bio-interest div{
-
+.profile-page-bio-interest div {
   margin: 10px 0;
+}
+
+.profile-page picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-page img {
+  object-fit: cover;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 1px solid black;
 }
