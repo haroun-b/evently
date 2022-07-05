@@ -1,4 +1,4 @@
-import { Stack } from "@chakra-ui/react";
+import Stack from '@mui/material/Stack';
 
 const AttendActionBar = ({
   attendanceStatus,
