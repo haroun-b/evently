@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavbarBottom from "../components/NavbarBottom";
 import AttendActionBar from "../components/AttendActionBar";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../utils/axiosInstance";
 
 import "./styles/EventPage.css";
 import { useParams } from "react-router-dom";
@@ -67,9 +67,7 @@ const EventPage = () => {
     const attendUrl = `/events/${params.id}/attendees`;
     // Create the event
     try {
-      axiosInstance.post(attendUrl).then((response) => {
-        console.log("response.data", response.data);
-      });
+      axiosInstance.post(attendUrl).then((response) => {});
     } catch (error) {
       console.error(error);
     }
