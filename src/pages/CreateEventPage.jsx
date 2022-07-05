@@ -2,57 +2,63 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavbarBottom from "../components/NavbarBottom";
 import FormField from "../components/FormField";
-import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 
 import "./styles/CreateEventPage.css";
 
 const formFields = [
-  { field: "input", label: "Title", type: "text", name: "title", id: "title" },
   {
     field: "input",
-    label: "Address",
+    label: "Title: ",
+    type: "text",
+    name: "title",
+    id: "title",
+  },
+  {
+    field: "input",
+    label: "Address: ",
     type: "text",
     name: "address",
     id: "address",
   },
   {
     field: "input",
-    label: "Starts at",
+    label: "Starts at: ",
     type: "datetime-local",
     name: "startAt",
     id: "startAt",
   },
   {
     field: "input",
-    label: "Ends at",
+    label: "Ends at: ",
     type: "datetime-local",
     name: "endAt",
     id: "endAt",
   },
   {
     field: "input",
-    label: "Minimum attendees",
+    label: "Minimum attendees: ",
     type: "number",
     name: "minAttendees",
     id: "minAttendees",
   },
   {
     field: "input",
-    label: "Maximum attendees",
+    label: "Maximum attendees: ",
     type: "number",
     name: "maxAttendees",
     id: "maxAttendees",
   },
   {
     field: "input",
-    label: "Price",
+    label: "Price: ",
     type: "number",
     name: "price",
     id: "price",
   },
   {
     field: "select",
-    label: "Category",
+    label: "Category: ",
     type: "text",
     name: "category",
     id: "category",
@@ -80,14 +86,14 @@ const formFields = [
   },
   {
     field: "textarea",
-    label: "Description",
+    label: "Description: ",
     name: "description",
     id: "description",
   },
   { field: "input", label: "Image", type: "file", name: "image", id: "image" },
   {
     field: "input",
-    label: "Approval required:",
+    label: "Approval required: ",
     type: "checkbox",
     name: "requiredApproval",
     id: "requiredApproval",
@@ -113,17 +119,14 @@ const CreateEventPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('handleSumbit');
+    console.log("handleSumbit");
+
+    const url = `/events`;
+    const data = { ...formData };
 
     // Create the event
-    console.log('formData', formData);
     try {
-      axios({
-        method: "POST",
-        // url: "https://the-evently-api.herokuapp.com/events",
-        url: "http://localhost:3001/events",
-        data: { ...formData },
-      }).then((response) => {
+      axiosInstance.post(url, data).then((response) => {
         console.log("response.data", response.data);
         navigate("/");
       });
