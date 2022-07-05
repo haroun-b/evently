@@ -6,6 +6,7 @@ import axiosInstance from "../../utils/axiosInstance";
 
 const MyEventsPage = () => {
   const [myEvents, setMyEvents] = useState([]);
+  console.log(myEvents);
 
   const url = `/me/events`;
 

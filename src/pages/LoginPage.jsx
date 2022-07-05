@@ -30,6 +30,7 @@ const LoginPage = () => {
     })
       .then(({data}) => {
         window.localStorage.setItem(`authToken`, data.authToken);
+        window.localStorage.setItem(`username`, data.username);
       })
       .catch((err) => {
         console.error(err)

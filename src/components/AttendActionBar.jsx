@@ -26,7 +26,7 @@ const AttendActionBar = ({attendanceStatus}) => {
 
   return (
     <Stack direction='row'>
-      <p>Free</p>
+      {/* <p>Free</p> */}
 
       <div className="attendance">
         {stateAndButtons}
