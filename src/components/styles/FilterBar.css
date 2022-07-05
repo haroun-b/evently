@@ -1,6 +1,5 @@
-.filter-bar-myevents-container {
+.filter-bar-events-attendees {
   border: 1px solid black;
-
   display: flex;
   justify-content: space-evenly;
 }
