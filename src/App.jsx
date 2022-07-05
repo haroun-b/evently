@@ -25,7 +25,7 @@ function App() {
           {/* Testing purpose */}
           <Route path="/attendees" element={<AttendeesPage />} />
           <Route path="/chat" element={<ChatPage />} />
-          <Route path="/event" element={<EventPage />} />
+          <Route path="/event/:id" element={<EventPage />} />
         </Routes>
       </BrowserRouter>
     </div>

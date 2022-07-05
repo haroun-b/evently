@@ -1,39 +1,48 @@
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import { Stack } from "@chakra-ui/react";
 
-const AttendActionBar = ({attendanceStatus}) => {
-  let stateAndButtons = '';
+const AttendActionBar = ({
+  attendanceStatus,
+  handleCancel,
+  handleAttend,
+  handleChat,
+}) => {
+  let stateAndbuttons = "";
   switch (attendanceStatus) {
-    case 'pending':
-      stateAndButtons = <>
-      <p>Pending</p>
-      <Button>Cancel</Button>
-      </>
+    case "pending":
+      stateAndbuttons = (
+        <>
+          <p>Pending</p>
+          <button onClick={handleCancel}>Cancel</button>
+        </>
+      );
       break;
-    case 'approved':
-      stateAndButtons = <>
-        <p>Approved</p>
-        <Button>Cancel</Button>
-        <Button>Chat</Button>
-      </>
+    case "approved":
+      stateAndbuttons = (
+        <>
+          <p>Approved</p>
+          <button onClick={handleCancel}>Cancel</button>
+          <button onClick={handleChat}>Chat</button>
+        </>
+      );
       break;
-    case 'rejected':
-      stateAndButtons = <p>Rejected</p>
+    case "rejected":
+      stateAndbuttons = <p>Rejected</p>;
+      break;
+    case "creator":
+      stateAndbuttons = <button onClick={handleChat}>Chat</button>;
       break;
     default:
-      stateAndButtons = <Button>Attend</Button>
+      stateAndbuttons = <button onClick={handleAttend}>Attend</button>;
       break;
   }
 
   return (
-    <Stack direction='row'>
-      <p>Free</p>
+    <Stack direction="row">
+      {/* <p>Free</p> */}
 
-      <div className="attendance">
-        {stateAndButtons}
-      </div>
+      <div className="attendance">{stateAndbuttons}</div>
     </Stack>
   );
-}
+};
 
 export default AttendActionBar;

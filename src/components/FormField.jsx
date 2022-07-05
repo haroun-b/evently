@@ -14,7 +14,49 @@ const FormInput = ({
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  if (field === "input") {
+  if (name === "startAt") {
+    return (
+      <>
+        <div className="group-input">
+          <label htmlFor={name}>{label}</label>
+          <input
+            type={type}
+            name={name}
+            id={id}
+            min={new Date().toISOString().slice(0, -8)}
+            value={formData[name]}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                [name]: event.target.value,
+              });
+            }}
+          ></input>
+        </div>
+      </>
+    );
+  } else if (name === "endAt") {
+    return (
+      <>
+        <div className="group-input">
+          <label htmlFor={name}>{label}</label>
+          <input
+            type={type}
+            name={name}
+            id={id}
+            min={formData["startAt"]}
+            value={formData[name]}
+            onChange={(event) => {
+              setFormData({
+                ...formData,
+                [name]: event.target.value,
+              });
+            }}
+          ></input>
+        </div>
+      </>
+    );
+  } else if (field === "input") {
     return (
       <>
         <div className="group-input">
@@ -34,9 +76,7 @@ const FormInput = ({
         </div>
       </>
     );
-  }
-
-  if (field === "textarea") {
+  } else if (field === "textarea") {
     return (
       <>
         <div className="group-input">
@@ -57,9 +97,7 @@ const FormInput = ({
         </div>
       </>
     );
-  }
-
-  if (field === "select") {
+  } else if (field === "select") {
     return (
       <>
         <div className="group-input">

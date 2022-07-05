@@ -128,7 +128,7 @@ const CreateEventPage = () => {
     try {
       axiosInstance.post(url, data).then((response) => {
         console.log("response.data", response.data);
-        navigate("/");
+        navigate(`/event/${response.data._id}`);
       });
     } catch (error) {
       console.error(error);
@@ -156,3 +156,4 @@ const CreateEventPage = () => {
 };
 
 export default CreateEventPage;
+

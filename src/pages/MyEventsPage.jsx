@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import NavbarBottom from "../components/NavbarBottom";
 import EventCard from "../components/EventCard";
 import FilterBar from "../components/FilterBar";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../utils/axiosInstance";
 
 const MyEventsPage = () => {
   const [myEvents, setMyEvents] = useState([]);
+  console.log(myEvents);
 
   const url = `/me/events`;
 
