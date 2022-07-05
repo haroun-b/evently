@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // baseURL: "https://the-evently-api.herokuapp.com",
-  baseURL: "http://localhost:3001",
+  baseURL: "https://the-evently-api.herokuapp.com",
+  // baseURL: "http://localhost:3001",
 });
 
 // Add a request interceptor
