@@ -9,6 +9,7 @@ const FormInput = ({
   options,
   formData,
   setFormData,
+  category,
 }) => {
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -50,6 +51,28 @@ const FormInput = ({
               setFormData({
                 ...formData,
                 [name]: event.target.value,
+              });
+            }}
+          ></input>
+        </div>
+      </>
+    );
+  } else if (category === "address") {
+    let address = ''
+    return (
+      <>
+        <div className="group-input">
+          <label htmlFor={name}>{label}</label>
+          <input
+            type={type}
+            name={name}
+            id={id}
+            value={formData.address[name]}
+            onChange={(event) => {
+              address = { ...address, [name]: event.target.value };
+              setFormData({
+                ...formData,
+                address,
               });
             }}
           ></input>
