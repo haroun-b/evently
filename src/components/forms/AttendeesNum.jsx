@@ -1,17 +1,7 @@
 import React, { useEffect } from "react";
 import Input from "./Input";
 
-const AttendeesNum = ({
-  type = "text",
-  name,
-  id,
-  options,
-  label,
-  formData,
-  setFormData,
-  children,
-  ...inputConfig
-}) => {
+const AttendeesNum = ({ formData, setFormData, children, ...inputConfig }) => {
   useEffect(() => {
     setFormData({
       ...formData,
@@ -25,14 +15,14 @@ const AttendeesNum = ({
   return (
     <div className="group-input">
       <Input
-        name="minimum"
-        label="Max"
+        name="maximum"
+        label="Max attendees"
         max={formData.maximum}
         {...{ setFormData, formData, ...inputConfig }}
       />
       <Input
-        name="maximum"
-        label="Min"
+        name="minimum"
+        label="Min attendees"
         max={formData.minimum}
         {...{ setFormData, formData, ...inputConfig }}
       />

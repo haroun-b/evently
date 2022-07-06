@@ -10,9 +10,11 @@ import Input from "../components/forms/Input";
 import Select from "../components/forms/Select";
 import { Textarea } from "../components/forms/Textarea";
 import AttendeesNum from "../components/forms/AttendeesNum";
+import EventHours from "../components/forms/EventHours";
 const formFields = [
   {
     component: Input,
+    key: 'title',
     label: "Title: ",
     name: "title",
     id: "title",
@@ -20,46 +22,27 @@ const formFields = [
   },
   {
     component: AddressLookupInput,
+    key: 'address',
     label: "Address: ",
     name: "address",
     id: "address",
     required: "required",
   },
   {
-    component: Input,
-    label: "Starts at: ",
+    component: EventHours,
+    key: 'hours',
     type: "datetime-local",
-    name: "startAt",
-    id: "startAt",
-    min: new Date().toISOString().slice(0, -8),
-    required: "required",
-  },
-  {
-    component: Input,
-    label: "Ends at: ",
-    type: "datetime-local",
-    name: "endAt",
-    id: "endAt",
-    min: 'formData["startAt"]',
     required: "required",
   },
   {
     component: AttendeesNum,
-    label: "Minimum attendees: ",
+    key: 'attendee',
     type: "number",
-    name: "minimum",
-    id: "minimum",
     min: 1,
   },
   {
-    component: AttendeesNum,
-    label: "Maximum attendees: ",
-    type: "number",
-    name: "maximum",
-    id: "maximum",
-  },
-  {
     component: Input,
+    key: 'price',
     label: "Price: ",
     type: "number",
     name: "price",
@@ -69,6 +52,7 @@ const formFields = [
   },
   {
     component: Select,
+    key: 'cat',
     label: "Category: ",
     name: "category",
     id: "category",
@@ -80,12 +64,14 @@ const formFields = [
   },
   {
     component: Textarea,
+    key: 'desc',
     label: "Description: ",
     name: "description",
     id: "description",
   },
   {
     component: Input,
+    key: 'img',
     label: "Image",
     type: "file",
     name: "image",
@@ -93,6 +79,7 @@ const formFields = [
   },
   {
     component: Input,
+    key: 'approval',
     label: "Approval required: ",
     type: "checkbox",
     name: "requiredApproval",
@@ -111,6 +98,8 @@ const CreateEventPage = () => {
     },
     startAt: "",
     endAt: "",
+    minimum:'',
+    maximum:'',
     attendees: {
       minimum: "",
       maximum: "",
@@ -147,7 +136,7 @@ const CreateEventPage = () => {
       <form className="create-event-form" onSubmit={handleSubmit}>
         {formFields.map(({ component: Component, ...formField }) => (
           <Component
-            key={formField.label}
+            key={formField.key}
             {...formField}
             formData={formData}
             setFormData={setFormData}
