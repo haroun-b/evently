@@ -10,26 +10,25 @@ const MyEventsPage = () => {
 
   const url = `/me/events`;
 
+  const [filter, setFilter] = useState("");
+
   // Filter event according to which button has been clicked
-  const handleFilter = (filter) => {
-    try {
-      axiosInstance.get(url).then((response) => {
-        if (filter === "all") {
-          const mergedEvents = response.data.attendedByUser.concat(
-            response.data.createdByUser
-          );
-          setMyEvents(mergedEvents);
-        }
-        if (filter === "created") {
-          setMyEvents(response.data.createdByUser);
-        }
-        if (filter === "attending") {
-          setMyEvents(response.data.attendedByUser);
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const handleFilter = (filterValue) => {
+    setFilter(filterValue);
+    axiosInstance.get(url).then((response) => {
+      if (filterValue === "all") {
+        const mergedEvents = response.data.attendedByUser.concat(
+          response.data.createdByUser
+        );
+        setMyEvents(mergedEvents);
+      }
+      if (filterValue === "created") {
+        setMyEvents(response.data.createdByUser);
+      }
+      if (filterValue === "attending") {
+        setMyEvents(response.data.attendedByUser);
+      }
+    });
   };
 
   // Load all my events when landing on page
@@ -57,7 +56,7 @@ const MyEventsPage = () => {
   };
   return (
     <div>
-      <FilterBar handleFilter={handleFilter} {...data} />
+      <FilterBar handleFilter={handleFilter} filter={filter} {...data} />
       <h1>My Events</h1>
       {myEvents.map((event) => {
         return <EventCard key={event._id} {...event} />;
