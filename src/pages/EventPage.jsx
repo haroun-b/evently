@@ -88,7 +88,7 @@ const EventPage = () => {
         </Typography>
 
         <Typography variant="subtitle1" component="h2">
-          {event.address.city}
+          {`${event.address.street} - ${event.address.city}`}
         </Typography>
       </Container>
 
