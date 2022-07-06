@@ -2,11 +2,11 @@ import { Outlet } from 'react-router-dom';
 import NavbarBottom from '../components/NavbarBottom';
 
 
-const MainLayout = ({ username }) => {
+const MainLayout = ({ currentUser }) => {
   return (
     <>
       <Outlet />
-      <NavbarBottom currentUser={username} />
+      <NavbarBottom {...{currentUser}} />
     </>
   )
 }

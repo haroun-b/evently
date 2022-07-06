@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
-import NavbarBottom from "../components/NavbarBottom";
+import React, { useEffect, useState } from "react";
 import AttendActionBar from "../components/AttendActionBar";
 import axiosInstance from "../utils/axiosInstance";
 
 import "./styles/EventPage.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Avatar, AvatarGroup, Box, Container, Stack, Typography } from "@mui/material";
 
-const EventPage = () => {
+
+const EventPage = ({ currentUser }) => {
   const [event, setEvent] = useState({});
-  console.log({ event })
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance.get(`/events/${id}`)
@@ -19,11 +19,16 @@ const EventPage = () => {
       })
       .catch((err) => {
         console.error(err);
-
-        if (err.response.status === 404) {
-          navigate('/404');
-        } else {
-          navigate('/500');
+        switch (err.response.status) {
+          case 401:
+            navigate('/login');
+            break;
+          case 404:
+            navigate('/404');
+            break;
+          default:
+            navigate('/500');
+            break;
         }
       })
   }, [id]);
@@ -32,7 +37,16 @@ const EventPage = () => {
   const handleAttend = () => {
     axiosInstance.post(`/events/${id}/attendees`)
       .then(({ data }) => {
-        setEvent({ ...event, myStatus: data.status });
+        const newState = { myStatus: data.status }
+
+        if (data.status === 'approved') {
+          newState.attendees = {
+            ...(event.attendees),
+            approved: [...(event.attendees.approved), data]
+          }
+        }
+
+        setEvent({ ...event, ...newState });
       })
       .catch((err) => {
         console.error(err);
@@ -42,7 +56,14 @@ const EventPage = () => {
   const handleCancel = () => {
     axiosInstance.delete(`/events/${id}/attendees`)
       .then(({ data }) => {
-        setEvent({ ...event, myStatus: data.status });
+        const attendees = event.attendees;
+        const newApproved = event.attendees.approved.filter(attendee => attendee.user.username !== currentUser);
+
+        setEvent({
+          ...event,
+          myStatus: data.status,
+          attendees: { ...attendees, approved: newApproved }
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -152,13 +173,13 @@ const EventPage = () => {
             Attendees
           </Typography>
           <AvatarGroup max={4}>
-            {() => {
+            {(() => {
               const attendees = event.attendees.requests || event.attendees.approved;
 
-              attendees.map(attendee => {
-                <Avatar alt={attendee.name} src={attendee.imageUrl} />
-              })
-            }}
+              return attendees.map(attendee =>
+                <Avatar alt={attendee.user.name} src={attendee.user.imageUrl} key={attendee.user.id} />
+              )
+            })()}
           </AvatarGroup>
         </Stack>
       </Stack>
