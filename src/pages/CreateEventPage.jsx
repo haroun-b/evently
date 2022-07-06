@@ -7,10 +7,13 @@ import axios from "axios";
 import categories from "../utils/categories.data.js";
 
 import "./styles/CreateEventPage.css";
+import AddressLookupInput from "../components/forms/AddressLookupInput";
+import Field from "../components/forms/Field";
 
 const formFields = [
   {
     field: "input",
+    Component: Field,
     label: "Title: ",
     type: "text",
     name: "title",
@@ -145,8 +148,6 @@ const CreateEventPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("formData", formData);
-    console.log("handleSumbit");
 
     const url = `/events`;
     const data = { ...formData };
@@ -162,36 +163,6 @@ const CreateEventPage = () => {
     }
   };
 
-  // const handleChange = (event) => {
-  //   // TODO
-  //   setFormData({
-  //     ...formData,
-  //     yolo: event.target.value,
-  //   });
-  // };
-
-  const [suggestions, setSuggestions] = useState([]);
-
-  // Search for addresses proposal
-  const searchAddress = (fullAddress) => {
-    const requestURL = "https://api-adresse.data.gouv.fr/search/?q=";
-    const requestAPI = requestURL + fullAddress + "?type=lable&autocomplete=1";
-    console.log(requestAPI);
-    axios.get(requestAPI).then((response) => {
-      console.log("response.data", response.data.features);
-      setSuggestions(response.data.features);
-    });
-  };
-
-  const handleSelect = () => {
-    setFormData({
-      ...formData,
-      address: { street: "", postcode: "", city: "" },
-      fullAddress: "",
-      //TODO Location
-    });
-  };
-
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -199,15 +170,15 @@ const CreateEventPage = () => {
   return (
     <div>
       <h1>CreateEventPage</h1>
-      <form onSubmit={handleSubmit}>
-        {/* {formFields.map((formField) => (
-          <FormField
+      <form className="create-event-form" onSubmit={handleSubmit}>
+        {formFields.map((formField) => (
+          <formField.Component
             key={formField.label}
             {...formField}
             formData={formData}
             setFormData={setFormData}
           />
-        ))} */}
+        ))}
 
         <div className="group-input">
           <label htmlFor="title">Title: </label>
@@ -226,34 +197,7 @@ const CreateEventPage = () => {
           />
         </div>
 
-        <div className="group-input">
-          <label htmlFor="address">Address: </label>
-          <input
-            type="text"
-            name="address"
-            id="address"
-            value={formData.fullAddress}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                fullAddress: event.target.value,
-              });
-              searchAddress(formData.fullAddress);
-            }}
-            required
-          />
-          <ul>
-            {suggestions.map((address) => {
-              return (
-                <li key={address.properties.id}>
-                  {/* onClick={handleSelect(address)} */}
-                  <strong>{address.properties.label}</strong>
-                </li>
-              );
-            })}
-            ;
-          </ul>
-        </div>
+        <AddressLookupInput formData={formData} setFormData={setFormData} />
 
         <div className="group-input">
           <label htmlFor="startAt">Start at: </label>
@@ -299,7 +243,7 @@ const CreateEventPage = () => {
             onChange={(event) => {
               setFormData({
                 ...formData,
-                attendees: { minimum: event.target.value },
+                attendees: { ...attendees, minimum: event.target.value },
               });
             }}
           />
@@ -315,7 +259,7 @@ const CreateEventPage = () => {
             onChange={(event) => {
               setFormData({
                 ...formData,
-                attendees: { minimum: event.target.value },
+                attendees: { ...attendees, maximum: event.target.value },
               });
             }}
           />

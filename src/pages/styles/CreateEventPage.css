@@ -9,3 +9,19 @@
 .create-event-form > * {
   margin: 2px 0;
 }
+
+.create-event-form > div {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.create-event-form .suggestion-list {
+  width: inherit;
+  border: 1px solid black;
+  list-style-type: none;
+}
+
+.create-event-form .suggestion-list > * {
+  font-size: 0.8rem;
+}
