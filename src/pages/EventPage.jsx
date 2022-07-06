@@ -110,7 +110,7 @@ const EventPage = () => {
           <p>
             From {event.startAt} to {event.endAt}
           </p>
-          <p>Location</p>
+          <p>{event.address.street} {event.address.city}</p>
         </div>
         <div className="creator-attendees">
           <div>{event.creator.name}</div>
