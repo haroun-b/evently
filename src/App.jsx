@@ -9,25 +9,35 @@ import Profile from "./pages/ProfilePage";
 import Attendees from "./pages/AttendeesPage";
 import Chat from "./pages/ChatPage";
 import Event from "./pages/EventPage";
-import Layout from "./pages/LayoutPage";
+import ProtectedLayout from "./pages/ProtectedLayoutPage";
+import MainLayout from "./pages/MainLayoutPage";
+import EventLayout from "./pages/EventLayoutPage";
 import Verify from "./pages/VerifyPage";
 import NotFound from "./pages/NotFoundPage";
 import Oops from "./pages/OopsPage";
+import { useMemo } from "react";
 
 function App() {
+  const { username, authToken } = useMemo(() => localStorage, [localStorage]);
+
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route path="users/:username" element={<Profile />} />
-            <Route path="events/mine" element={<MyEvents />} />
-            <Route path="events/find" element={<Search />} />
-            <Route path="events/create" element={<CreateEvent />} />
+          <Route path='/' element={<ProtectedLayout {...{ authToken }} />}>
+            <Route path="" element={<MainLayout {...{ username }} />}>
+              <Route path="users/:username" element={<Profile />} />
+              <Route path="events/mine" element={<MyEvents />} />
+              <Route path="events/find" element={<Search />} />
+              <Route path="events/create" element={<CreateEvent />} />
+            </Route>
 
-            <Route path="/events/:id" element={<Event />} />
-            <Route path="/events/:id/attendees" element={<Attendees />} />
-            <Route path="/events/:id/chat" element={<Chat />} />
+            <Route path="" element={<EventLayout />}>
+              <Route path="events/:id" element={<Event />} />
+              <Route path="events/:id/attendees" element={<Attendees />} />
+              <Route path="events/:id/chat" element={<Chat />} />
+            </Route>
           </Route>
 
 
