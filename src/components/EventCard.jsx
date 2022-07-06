@@ -52,7 +52,7 @@ const EventCard = (
   return (
     <Card sx={{ maxWidth: "100%", textAlign: `left`, margin: `1.8rem 3rem` }}>
       <CardActionArea
-        onClick={() => { navigate(`/event/${_id}`) }}
+        onClick={() => { navigate(`/events/${_id}`) }}
       >
         <Stack
           direction="row"
