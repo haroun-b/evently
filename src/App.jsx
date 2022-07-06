@@ -1,15 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
-import SignupPage from "./pages/SignupPage";
-import LoginPage from "./pages/LoginPage";
-import MyEventsPage from "./pages/MyEventsPage";
-import SearchPage from "./pages/SearchPage";
-import CreateEventPage from "./pages/CreateEventPage";
-import ProfilePage from "./pages/ProfilePage";
-import AttendeesPage from "./pages/AttendeesPage";
-import ChatPage from "./pages/ChatPage";
-import EventPage from "./pages/EventPage";
-import Layout from "./pages/Layout";
+import Signup from "./pages/SignupPage";
+import Login from "./pages/LoginPage";
+import MyEvents from "./pages/MyEventsPage";
+import Search from "./pages/SearchPage";
+import CreateEvent from "./pages/CreateEventPage";
+import Profile from "./pages/ProfilePage";
+import Attendees from "./pages/AttendeesPage";
+import Chat from "./pages/ChatPage";
+import Event from "./pages/EventPage";
+import Layout from "./pages/LayoutPage";
+import Verify from "./pages/VerifyPage";
+import NotFound from "./pages/NotFoundPage";
+import Oops from "./pages/OopsPage";
 
 function App() {
   return (
@@ -17,20 +20,22 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route path="" element={<MyEventsPage />} />
-            <Route path="events/find" element={<SearchPage />} />
-            <Route path="events/create" element={<CreateEventPage />} />
-            <Route path=":username" element={<ProfilePage />} />
+            <Route path="users/:username" element={<Profile />} />
+            <Route path="events/mine" element={<MyEvents />} />
+            <Route path="events/find" element={<Search />} />
+            <Route path="events/create" element={<CreateEvent />} />
+
+            <Route path="/events/:id" element={<Event />} />
+            <Route path="/events/:id/attendees" element={<Attendees />} />
+            <Route path="/events/:id/chat" element={<Chat />} />
           </Route>
 
 
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/login" element={<LoginPage />} />
-
-          {/* Testing purpose */}
-          <Route path="/attendees" element={<AttendeesPage />} />
-          <Route path="/chat" element={<ChatPage />} />
-          <Route path="/events/:id" element={<EventPage />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/verify" element={<Verify />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="500" element={<Oops />} />
         </Routes>
       </BrowserRouter>
     </div>
