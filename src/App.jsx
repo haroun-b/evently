@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -17,20 +17,19 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>
+            <Route path=":username" element={<ProfilePage />} />
             <Route path="events/mine" element={<MyEventsPage />} />
             <Route path="events/find" element={<SearchPage />} />
             <Route path="events/create" element={<CreateEventPage />} />
-            <Route path=":username" element={<ProfilePage />} />
+
+            <Route path="/events/:id" element={<EventPage />} />
+            <Route path="/events/:id/attendees" element={<AttendeesPage />} />
+            <Route path="/events/:id/chat" element={<ChatPage />} />
           </Route>
 
 
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
-
-          {/* Testing purpose */}
-          <Route path="/events/:id" element={<EventPage />} />
-          <Route path="/events/:id/attendees" element={<AttendeesPage />} />
-          <Route path="/events/:id/chat" element={<ChatPage />} />
         </Routes>
       </BrowserRouter>
     </div>

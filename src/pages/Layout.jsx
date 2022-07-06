@@ -1,12 +1,23 @@
-import { Outlet } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 import NavbarBottom from '../components/NavbarBottom';
 
 
 const Layout = () => {
+  const { authToken } = useMemo(() => localStorage, [localStorage]);
+
   return (
     <>
-    <Outlet />
-    <NavbarBottom />
+      {
+        authToken
+          ?
+          <>
+            <Outlet />
+            <NavbarBottom />
+          </>
+          :
+          <Navigate to="/login" />
+      }
     </>
   )
 }
