@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NavbarBottom from "../components/NavbarBottom";
 import axiosInstance from "../utils/axiosInstance";
 
@@ -8,11 +8,11 @@ import "./styles/ProfilePage.css";
 const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState({});
   const currentUser = useMemo(() => localStorage.username, [localStorage]);
-  const { pathname } = useLocation();
+  const { username } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const url = pathname === `/users/${currentUser}` ? `/me` : pathname;
+    const url = username === currentUser ? `/me` : `/users/${username}`;
 
     axiosInstance.get(url)
       .then(({ data }) => {
@@ -28,7 +28,7 @@ const ProfilePage = () => {
         }
       })
 
-  }, [pathname]);
+  }, [username]);
 
   const handleEdit = () => {
 

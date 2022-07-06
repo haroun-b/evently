@@ -18,13 +18,19 @@ const EventPage = () => {
   const getEventUrl = `/events/${params.id}`;
 
   useEffect(() => {
-    try {
-      axiosInstance.get(getEventUrl).then((response) => {
+    axiosInstance.get(getEventUrl)
+      .then((response) => {
         setEvent(response.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+      })
+      .catch((err) => {
+        console.error(err);
+
+        // if (err.response.status === 404) {
+        //   navigate('/404');
+        // } else {
+        //   navigate('/500');
+        // }
+      })
   }, []);
 
   // function getAttendees() {
@@ -67,7 +73,7 @@ const EventPage = () => {
     const attendUrl = `/events/${params.id}/attendees`;
     // Create the event
     try {
-      axiosInstance.post(attendUrl).then((response) => {});
+      axiosInstance.post(attendUrl).then((response) => { });
     } catch (error) {
       console.error(error);
     }
@@ -85,7 +91,7 @@ const EventPage = () => {
     }
   };
 
-  const handleChat = () => {};
+  const handleChat = () => { };
 
   const myFunctions = { handleAttend, handleCancel, handleChat };
 
