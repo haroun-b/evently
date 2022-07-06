@@ -17,7 +17,7 @@ const NavbarBottom = () => {
 
   React.useEffect(() => {
     switch (pathname) {
-      case '/':
+      case '/events/mine':
         setCurrent('myEvents');
         break;
       case '/events/find':
@@ -37,7 +37,7 @@ const NavbarBottom = () => {
 
     switch (newValue) {
       case 'myEvents':
-        navigate(`/`);
+        navigate(`/events/mine`);
         break;
       case 'find':
         navigate(`/events/find`);
