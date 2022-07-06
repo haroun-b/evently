@@ -1,120 +1,98 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavbarBottom from "../components/NavbarBottom";
-import FormField from "../components/FormField";
 import axiosInstance from "../utils/axiosInstance";
-import axios from "axios";
 import categories from "../utils/categories.data.js";
 
 import "./styles/CreateEventPage.css";
 import AddressLookupInput from "../components/forms/AddressLookupInput";
-import Field from "../components/forms/Field";
-
+import Input from "../components/forms/Input";
+import Select from "../components/forms/Select";
+import { Textarea } from "../components/forms/Textarea";
+import AttendeesNum from "../components/forms/AttendeesNum";
 const formFields = [
   {
-    field: "input",
-    Component: Field,
+    component: Input,
     label: "Title: ",
-    type: "text",
     name: "title",
     id: "title",
+    required: "required",
   },
   {
-    field: "input",
-    category: "address",
-    label: "Street: ",
-    type: "text",
-    name: "street",
-    id: "street",
+    component: AddressLookupInput,
+    label: "Address: ",
+    name: "address",
+    id: "address",
+    required: "required",
   },
   {
-    field: "input",
-    category: "address",
-    label: "Postcode: ",
-    type: "text",
-    name: "postcode",
-    id: "postcode",
-  },
-  {
-    field: "input",
-    category: "address",
-    label: "City: ",
-    type: "text",
-    name: "city",
-    id: "city",
-  },
-  {
-    field: "input",
+    component: Input,
     label: "Starts at: ",
     type: "datetime-local",
     name: "startAt",
     id: "startAt",
+    min: new Date().toISOString().slice(0, -8),
+    required: "required",
   },
   {
-    field: "input",
+    component: Input,
     label: "Ends at: ",
     type: "datetime-local",
     name: "endAt",
     id: "endAt",
+    min: 'formData["startAt"]',
+    required: "required",
   },
   {
-    field: "input",
+    component: AttendeesNum,
     label: "Minimum attendees: ",
     type: "number",
-    name: "minAttendees",
-    id: "minAttendees",
+    name: "minimum",
+    id: "minimum",
+    min: 1,
   },
   {
-    field: "input",
+    component: AttendeesNum,
     label: "Maximum attendees: ",
     type: "number",
-    name: "maxAttendees",
-    id: "maxAttendees",
+    name: "maximum",
+    id: "maximum",
   },
   {
-    field: "input",
+    component: Input,
     label: "Price: ",
     type: "number",
     name: "price",
     id: "price",
+    min: "0",
+    step: "0.05",
   },
   {
-    field: "select",
+    component: Select,
     label: "Category: ",
-    type: "text",
     name: "category",
     id: "category",
-    options: [
-      "art & culture",
-      "writing",
-      "music",
-      "dancing",
-      "games",
-      "pets & animals",
-      "language",
-      "education",
-      "science",
-      "technology",
-      "career & business",
-      "politics",
-      "community & envrionment",
-      "parents & family",
-      "hobbies & passions",
-      "health & wellbeing",
-      "religion & spirituality",
-      "sports",
-      "outdoor",
-    ],
+    options: categories,
+    required: "required",
+    capitalizeFirstLetter: (string) => {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    },
   },
   {
-    field: "textarea",
+    component: Textarea,
     label: "Description: ",
     name: "description",
     id: "description",
   },
-  { field: "input", label: "Image", type: "file", name: "image", id: "image" },
   {
-    field: "input",
+    component: Input,
+    label: "Image",
+    type: "file",
+    name: "image",
+    id: "image",
+  },
+  {
+    component: Input,
     label: "Approval required: ",
     type: "checkbox",
     name: "requiredApproval",
@@ -163,16 +141,12 @@ const CreateEventPage = () => {
     }
   };
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   return (
-    <div>
+    <div className="create-event-page">
       <h1>CreateEventPage</h1>
       <form className="create-event-form" onSubmit={handleSubmit}>
-        {formFields.map((formField) => (
-          <formField.Component
+        {formFields.map(({ component: Component, ...formField }) => (
+          <Component
             key={formField.label}
             {...formField}
             formData={formData}
@@ -180,7 +154,18 @@ const CreateEventPage = () => {
           />
         ))}
 
-        <div className="group-input">
+        <input type="submit" value="Send" name="" id="" />
+      </form>
+
+      <NavbarBottom />
+    </div>
+  );
+};
+
+export default CreateEventPage;
+
+{
+  /* <div className="group-input">
           <label htmlFor="title">Title: </label>
           <input
             type="text"
@@ -339,14 +324,5 @@ const CreateEventPage = () => {
               });
             }}
           />
-        </div>
-
-        <input type="submit" value="Send" name="" id="" />
-      </form>
-
-      <NavbarBottom />
-    </div>
-  );
-};
-
-export default CreateEventPage;
+        </div> */
+}

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Field = ({
+const Select = ({
   type = "text",
   name,
   id,
@@ -9,6 +9,7 @@ const Field = ({
   formData,
   setFormData,
   children,
+  capitalizeFirstLetter,
   ...inputConfig
 }) => {
   if (!name || !label || !setFormData || !formData) {
@@ -18,11 +19,10 @@ const Field = ({
   if (!id) {
     id = name;
   }
-
   return (
     <div className="group-input">
       <label htmlFor={id}>{label}</label>
-      <input
+      <select
         type={type}
         name={name}
         id={id}
@@ -34,10 +34,20 @@ const Field = ({
             [name]: event.target.value,
           });
         }}
-      ></input>
+        required
+      >
+        <option value="">--Please choose an option--</option>
+        {options.map((option) => {
+          return (
+            <option key={option} value={option}>
+              {capitalizeFirstLetter(option)}
+            </option>
+          );
+        })}
+      </select>
       {children}
     </div>
   );
 };
 
-export default Field;
+export default Select;

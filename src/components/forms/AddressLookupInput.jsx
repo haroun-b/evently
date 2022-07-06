@@ -1,32 +1,42 @@
 import axios from "axios";
 import React, { startTransition, useEffect, useState } from "react";
-import Field from "./Field";
+import Input from "./Input";
+
+const requestURL = "https://api-adresse.data.gouv.fr/search/";
 
 const AddressLookupInput = ({ setFormData, formData }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState("");
   const [controller, setController] = useState(null);
 
   // Search for addresses proposal
   const searchAddress = (fullAddress) => {
-    const requestURL = "https://api-adresse.data.gouv.fr/search/?q=";
-    const requestAPI = requestURL + fullAddress + "?type=lable&autocomplete=1";
-    console.log(requestAPI);
-
     const newController = new AbortController();
     const signal = newController.signal;
 
-    axios.get(requestAPI, { signal }).then((response) => {
-      console.log("response.data", response.data.features);
-      setSuggestions(response.data.features);
-      setSuggestionsOpen(true);
-    });
+    axios
+      .get(requestURL, { signal, params: { q: fullAddress } })
+      .then((response) => {
+        console.log("response.data", response.data.features);
+        setSuggestions(response.data.features);
+        setSuggestionsOpen(true);
+      })
+      .catch((error) => {
+        if (signal.aborted) {
+          return;
+        }
+        console.error("Error in address search", error);
+      });
 
     controller?.abort();
     setController(newController);
   };
 
   useEffect(() => {
+    if (selectedSuggestion === formData.fullAddress) {
+      return;
+    }
     startTransition(() => searchAddress(formData.fullAddress));
   }, [formData.fullAddress]);
 
@@ -42,11 +52,12 @@ const AddressLookupInput = ({ setFormData, formData }) => {
       },
       fullAddress: address.properties.label,
     });
+    setSelectedSuggestion(address.properties.label);
     setSuggestionsOpen(false);
   };
 
   return (
-    <Field
+    <Input
       name="fullAddress"
       label="Address"
       {...{ setFormData, formData }}
@@ -66,7 +77,7 @@ const AddressLookupInput = ({ setFormData, formData }) => {
           })}
         </ul>
       )}
-    </Field>
+    </Input>
   );
 };
 

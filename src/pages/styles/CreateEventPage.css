@@ -1,3 +1,7 @@
+.create-event-page {
+  margin-bottom: 80px;
+}
+
 .create-event-form {
   display: flex;
   flex-direction: column;
