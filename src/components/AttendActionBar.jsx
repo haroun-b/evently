@@ -4,7 +4,7 @@ const AttendActionBar = ({
   attendanceStatus,
   handleCancel,
   handleAttend,
-  handleChat,
+  openChat,
 }) => {
   let stateAndbuttons = "";
   switch (attendanceStatus) {
@@ -21,7 +21,7 @@ const AttendActionBar = ({
         <>
           <p>Approved</p>
           <button onClick={handleCancel}>Cancel</button>
-          <button onClick={handleChat}>Chat</button>
+          <button onClick={openChat}>Chat</button>
         </>
       );
       break;
@@ -29,7 +29,7 @@ const AttendActionBar = ({
       stateAndbuttons = <p>Rejected</p>;
       break;
     case "creator":
-      stateAndbuttons = <button onClick={handleChat}>Chat</button>;
+      stateAndbuttons = <button onClick={openChat}>Chat</button>;
       break;
     default:
       stateAndbuttons = <button onClick={handleAttend}>Attend</button>;
