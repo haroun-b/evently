@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import Input from "./Input";
+import './formStyle.css'
 
 const EventHours = ({ formData, setFormData, children, ...inputConfig }) => {
   return (
     <div className="group-input">
       <Input
-        name="startAt"
-        label="Start at"
+        name={"startAt"}
+        label={"Start at"}
         min={new Date().toISOString().slice(0, -8)}
         {...{ setFormData, formData, ...inputConfig }}
       />
       <Input
-        name="endAt"
-        label="End at"
+        name={"endAt"}
+        label={"End at"}
         min={formData["startAt"]}
         {...{ setFormData, formData, ...inputConfig }}
       />

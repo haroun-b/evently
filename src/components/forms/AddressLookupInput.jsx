@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { startTransition, useEffect, useState } from "react";
 import Input from "./Input";
+import './formStyle.css'
 
 const requestURL = "https://api-adresse.data.gouv.fr/search/";
 
@@ -51,6 +52,9 @@ const AddressLookupInput = ({ setFormData, formData }) => {
         city: address.properties.city,
       },
       fullAddress: address.properties.label,
+      location: {
+        coordinates: address.geometry.coordinates,
+      },
     });
     setSelectedSuggestion(address.properties.label);
     setSuggestionsOpen(false);

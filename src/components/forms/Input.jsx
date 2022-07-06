@@ -1,4 +1,5 @@
 import React from "react";
+import './formStyle.css'
 
 const Input = ({
   type = "text",

@@ -38,7 +38,6 @@ const formFields = [
     component: AttendeesNum,
     key: 'attendee',
     type: "number",
-    min: 1,
   },
   {
     component: Input,
@@ -103,6 +102,9 @@ const CreateEventPage = () => {
     attendees: {
       minimum: "",
       maximum: "",
+    },
+    location: {
+      coordinates: ""
     },
     price: "",
     category: "",
