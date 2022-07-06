@@ -1,140 +1,173 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import NavbarBottom from "../components/NavbarBottom";
 import AttendActionBar from "../components/AttendActionBar";
 import axiosInstance from "../utils/axiosInstance";
 
 import "./styles/EventPage.css";
 import { useParams } from "react-router-dom";
+import { Avatar, AvatarGroup, Box, Container, Stack, Typography } from "@mui/material";
 
 const EventPage = () => {
   const [event, setEvent] = useState({});
-  console.log("event", event);
-  const [pending, setPending] = useState([]);
-  const [approved, setApproved] = useState([]);
-  const [rejected, setRejected] = useState([]);
-
+  console.log({ event })
   const { id } = useParams();
 
   useEffect(() => {
     axiosInstance.get(`/events/${id}`)
-      .then(({data}) => {
+      .then(({ data }) => {
         setEvent(data);
       })
       .catch((err) => {
         console.error(err);
 
-        // if (err.response.status === 404) {
-        //   navigate('/404');
-        // } else {
-        //   navigate('/500');
-        // }
+        if (err.response.status === 404) {
+          navigate('/404');
+        } else {
+          navigate('/500');
+        }
       })
   }, [id]);
 
-  // function getAttendees() {
-  //   console.log('event', event);
-  //   const pendingAttendees = event.attendees.requests.filter(
-  //     (request) => request === "pending"
-  //   );
-  //   setPending(pendingAttendees);
-  //   const approvedAttendees = event.attendees.requests.filter(
-  //     (request) => request === "approved"
-  //   );
-  //   setApproved(approvedAttendees)
-  //   const rejectedAttendees = event.attendees.requests.filter(
-  //     (request) => request === "rejected"
-  //   );
-  //   setRejected(rejectedAttendees)
-  // }
-
-  // //  Check attendance status
-  // // We should do that in the backend
-  // function getAttendanceStatus() {
-  //   if (username === event.creator.username) {
-  //     setAttendanceStatus("creator");
-  //   } else if (pending.includes(username)) {
-  //     setAttendanceStatus("pending");
-  //   } else if (approved.includes(username)) {
-  //     setAttendanceStatus("approved");
-  //   } else if (rejected.includes(username)) {
-  //     setAttendanceStatus("rejected");
-  //   }
-  // }
-
-  // function getAttendeesAndStatus () {
-  //   if (Object.keys(event).length === 0) {
-  //     return <div>Loading</div>;
-  //   }
-  // }
 
   const handleAttend = () => {
-    const attendUrl = `/events/${params.id}/attendees`;
-    // Create the event
-    try {
-      axiosInstance.post(attendUrl).then((response) => { });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    axiosInstance.post(`/events/${id}/attendees`)
+      .then(({ data }) => {
+        setEvent({ ...event, myStatus: data.status });
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
 
   const handleCancel = () => {
-    const deleteAttendanceUrl = `/events/${params.id}/attendees`;
-    // Create the event
-    try {
-      axiosInstance.delete(deleteAttendanceUrl).then((response) => {
-        console.log(response);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    axiosInstance.delete(`/events/${id}/attendees`)
+      .then(({ data }) => {
+        setEvent({ ...event, myStatus: data.status });
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
 
-  const handleChat = () => { };
+  const openChat = () => { };
 
-  const myFunctions = { handleAttend, handleCancel, handleChat };
+  const handlers = { handleAttend, handleCancel, openChat };
 
   if (Object.keys(event).length === 0) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
   return (
-    <div className="event-page">
-      <header>
-        <div className="event-page-edit-button">
-          <button>Edit</button>
-        </div>
-        <picture>
-          <img src="" alt="event picture" />
-        </picture>
-      </header>
+    <Stack
+      sx={{
+        textAlign: 'left'
+      }}
+    >
+      <Stack className="topActionBar">
 
-      <main>
-        <div className="event-page-info">
-          <h4>{event.title}</h4>
-          <p>
-            From {event.startAt} to {event.endAt}
-          </p>
-          <p>{event.address.street} {event.address.city}</p>
-        </div>
-        <div className="creator-attendees">
-          <div>{event.creator.name}</div>
-          <div>Attendees:</div>
-        </div>
-        <div className="event-page-description">
-          <p>Description: {event.description}</p>
-        </div>
-        <div className="event-page-price">
-          <div>Price: {event.price}</div>
-          <div className="event-page-attend-button">
-            <AttendActionBar
-              {...myFunctions}
-              attendanceStatus={event.myStatus}
-            />
-          </div>
-        </div>
-        <NavbarBottom />
-      </main>
-    </div>
+      </Stack>
+
+      <img
+        src={event.imageUrl}
+        alt={event.title}
+        style={{
+          height: '5%',
+        }}
+      />
+
+      <Container>
+        <Typography variant="h4" component="h1">
+          {event.title}
+        </Typography>
+
+        <Typography variant="subtitle2" component="h2">
+          {`From: ${event.startAt.slice(0, -8)}`}
+        </Typography>
+        <Typography variant="subtitle2" component="h2">
+          {`To: ${event.endAt.slice(0, -8)}`}
+        </Typography>
+
+        <Typography variant="subtitle1" component="h2">
+          {`${event.address.street} - ${event.address.city}`}
+        </Typography>
+      </Container>
+
+      <Container>
+        <Typography variant="h6" component="h2">
+          Description:
+        </Typography>
+
+        <Typography variant="body1">
+          {event.description}
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur aspernatur facere asperiores alias, laborum fuga nisi enim ipsa reiciendis quod inventore et deserunt cum soluta iste ab reprehenderit dolor pariatur.
+        </Typography>
+      </Container>
+
+      <Stack className="eventParticipents"
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={0}
+      >
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          sx={{
+            width: '50%',
+            height: '5rem',
+            padding: '.3rem',
+            backgroundColor: '#fff',
+            '&:hover': {
+              backgroundColor: '#bfbfbf',
+              opacity: [0.9, 0.8, 0.7],
+            },
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            Creator
+          </Typography>
+          <Avatar
+            alt={event.creator.name}
+            src={event.creator.imageUrl}
+          />
+        </Stack>
+
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          sx={{
+            width: '50%',
+            height: '5rem',
+            padding: '.3rem',
+            backgroundColor: '#fff',
+            '&:hover': {
+              backgroundColor: '#bfbfbf',
+              opacity: [0.9, 0.8, 0.7],
+            },
+          }}
+        >
+          <Typography variant="h6" component="h2">
+            Attendees
+          </Typography>
+          <AvatarGroup max={4}>
+            {() => {
+              const attendees = event.attendees.requests || event.attendees.approved;
+
+              attendees.map(attendee => {
+                <Avatar alt={attendee.name} src={attendee.imageUrl} />
+              })
+            }}
+          </AvatarGroup>
+        </Stack>
+      </Stack>
+
+      <AttendActionBar
+        {...handlers}
+        attendanceStatus={event.myStatus}
+      />
+    </Stack>
   );
 };
 
