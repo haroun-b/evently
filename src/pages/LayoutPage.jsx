@@ -4,7 +4,7 @@ import NavbarBottom from '../components/NavbarBottom';
 
 
 const Layout = () => {
-  const { authToken } = useMemo(() => localStorage, [localStorage]);
+  const { username, authToken } = useMemo(() => localStorage, [localStorage]);
 
   return (
     <>
@@ -13,7 +13,7 @@ const Layout = () => {
           ?
           <>
             <Outlet />
-            <NavbarBottom />
+            <NavbarBottom currentUser={username} />
           </>
           :
           <Navigate to="/login" />

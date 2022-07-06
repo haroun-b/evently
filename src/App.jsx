@@ -12,6 +12,7 @@ import Event from "./pages/EventPage";
 import Layout from "./pages/LayoutPage";
 import Verify from "./pages/VerifyPage";
 import NotFound from "./pages/NotFoundPage";
+import Oops from "./pages/OopsPage";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route path=":username" element={<Profile />} />
+            <Route path="users/:username" element={<Profile />} />
             <Route path="events/mine" element={<MyEvents />} />
             <Route path="events/find" element={<Search />} />
             <Route path="events/create" element={<CreateEvent />} />
@@ -34,6 +35,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="500" element={<Oops />} />
         </Routes>
       </BrowserRouter>
     </div>

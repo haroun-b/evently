@@ -9,7 +9,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
-const NavbarBottom = () => {
+const NavbarBottom = ({ currentUser }) => {
   const [current, setCurrent] = React.useState('');
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const NavbarBottom = () => {
       case '/events/create':
         setCurrent('create');
         break;
-      default:
+      case `/users/${currentUser}`:
         setCurrent('profile');
         break;
     }
@@ -46,9 +46,7 @@ const NavbarBottom = () => {
         navigate(`/events/create`);
         break;
       case 'profile':
-        const { username } = localStorage;
-
-        localStorage.authToken ? navigate(`/${username}`) : navigate(`/login`);
+        navigate(`/users/${currentUser}`);
         break;
     }
   };

@@ -1,26 +1,37 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavbarBottom from "../components/NavbarBottom";
 import axiosInstance from "../utils/axiosInstance";
 
 import "./styles/ProfilePage.css";
 
 const ProfilePage = () => {
-  const [myInfo, setMyInfo] = useState({});
-  console.log("myInfo", myInfo);
+  const [userInfo, setUserInfo] = useState({});
+  const currentUser = useMemo(() => localStorage.username, [localStorage]);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-  const url = `/me`;
   useEffect(() => {
-    try {
-      axiosInstance.get(url).then((response) => {
-        setMyInfo(response.data);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+    const url = pathname === `/users/${currentUser}` ? `/me` : pathname;
+
+    axiosInstance.get(url)
+      .then(({ data }) => {
+        setUserInfo(data);
+      })
+      .catch((err) => {
+        console.error(err);
+
+        if (err.response.status === 404) {
+          navigate('/404');
+        } else {
+          navigate('/500');
+        }
+      })
+
+  }, [pathname]);
 
   const handleEdit = () => {
-    
+
   };
 
   return (
@@ -31,11 +42,11 @@ const ProfilePage = () => {
           <button onClick={handleEdit}>Edit</button>
         </div>
         <picture>
-          <img src={myInfo.imageUrl} alt="profile-pic" />
+          <img src={userInfo.imageUrl} alt="profile-pic" />
         </picture>
       </header>
       <main>
-        <div>{myInfo.name}</div>
+        <div>{userInfo.name}</div>
         {/* <div>City</div> */}
         {/* <div>
           <p>Badges</p>
@@ -46,10 +57,10 @@ const ProfilePage = () => {
         </div> */}
         <div className="profile-page-bio-interest">
           <div>
-            <p>{myInfo.bio}</p>
+            <p>{userInfo.bio}</p>
           </div>
           <div>
-            <p>{myInfo.interests}</p>
+            <p>{userInfo.interests}</p>
           </div>
         </div>
       </main>
