@@ -1,4 +1,6 @@
-import React from "react";
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import "./formStyle.css";
 
 export const Textarea = ({
   name,
@@ -11,6 +13,32 @@ export const Textarea = ({
 }) => {
   return (
     <div className="group-input">
+      <TextField
+        id={id}
+        label={label}
+        {...inputConfig}
+        name={name}
+        variant="standard"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        value={formData[name]}
+        onChange={(event) => {
+          setFormData({
+            ...formData,
+            [name]: event.target.value,
+          });
+        }}
+        multiline
+        maxRows={4}
+      ></TextField>
+      {children}
+    </div>
+  );
+};
+
+{
+  /* <div className="group-input">
       <label htmlFor={id}>{label}: </label>
       <textarea
         name={name}
@@ -26,6 +54,5 @@ export const Textarea = ({
           });
         }}
       ></textarea>
-    </div>
-  );
-};
+    </div> */
+}

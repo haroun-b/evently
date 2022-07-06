@@ -7,27 +7,27 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import SearchIcon from "@mui/icons-material/Search";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import { Opacity } from "@mui/icons-material";
 
 const NavbarBottom = ({ currentUser }) => {
-  const [current, setCurrent] = React.useState('');
+  const [current, setCurrent] = React.useState("");
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-
   React.useEffect(() => {
     switch (pathname) {
-      case '/events/mine':
-        setCurrent('myEvents');
+      case "/events/mine":
+        setCurrent("myEvents");
         break;
-      case '/events/find':
-        setCurrent('find');
+      case "/events/find":
+        setCurrent("find");
         break;
-      case '/events/create':
-        setCurrent('create');
+      case "/events/create":
+        setCurrent("create");
         break;
       case `/users/${currentUser}`:
-        setCurrent('profile');
+        setCurrent("profile");
         break;
     }
   }, [pathname]);
@@ -36,33 +36,32 @@ const NavbarBottom = ({ currentUser }) => {
     setCurrent(newValue);
 
     switch (newValue) {
-      case 'myEvents':
+      case "myEvents":
         navigate(`/events/mine`);
         break;
-      case 'find':
+      case "find":
         navigate(`/events/find`);
         break;
-      case 'create':
+      case "create":
         navigate(`/events/create`);
         break;
-      case 'profile':
+      case "profile":
         navigate(`/users/${currentUser}`);
         break;
     }
   };
 
   return (
-    <Box sx={{
-      position: 'fixed',
-      bottom: 0,
-      left: 0,
-      width: '100%',
-      border: '1px solid #000'
-    }}>
-      <BottomNavigation
-        value={current}
-        onChange={handleChange}
-      >
+    <Box
+      sx={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        border: "1px solid #000",
+      }}
+    >
+      <BottomNavigation value={current} onChange={handleChange}>
         <BottomNavigationAction
           label="My Events"
           value="myEvents"
@@ -90,6 +89,5 @@ const NavbarBottom = ({ currentUser }) => {
     </Box>
   );
 };
-
 
 export default NavbarBottom;

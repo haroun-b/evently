@@ -1,5 +1,6 @@
-import React from "react";
-import './formStyle.css'
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import "./formStyle.css";
 
 const Input = ({
   type = "text",
@@ -22,12 +23,16 @@ const Input = ({
 
   return (
     <div className="group-input">
-      <label htmlFor={id}>{label}</label>
-      <input
+      <TextField
+        id={id}
+        label={label}
+        {...inputConfig}
         type={type}
         name={name}
-        id={id}
-        {...inputConfig}
+        variant="standard"
+        InputLabelProps={{
+          shrink: true,
+        }}
         value={formData[name]}
         onChange={(event) => {
           setFormData({
@@ -35,9 +40,28 @@ const Input = ({
             [name]: event.target.value,
           });
         }}
-      ></input>
+      ></TextField>
+
       {children}
     </div>
+
+    // <div className="group-input">
+    //   <label htmlFor={id}>{label}</label>
+    //   <input
+    //     type={type}
+    //     name={name}
+    //     id={id}
+    //     {...inputConfig}
+    //     value={formData[name]}
+    //     onChange={(event) => {
+    //       setFormData({
+    //         ...formData,
+    //         [name]: event.target.value,
+    //       });
+    //     }}
+    //   ></input>
+    //   {children}
+    // </div>
   );
 };
 

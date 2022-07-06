@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import NavbarBottom from "../components/NavbarBottom";
 import axiosInstance from "../utils/axiosInstance";
@@ -11,37 +12,38 @@ import Select from "../components/forms/Select";
 import { Textarea } from "../components/forms/Textarea";
 import AttendeesNum from "../components/forms/AttendeesNum";
 import EventHours from "../components/forms/EventHours";
+import CheckBox from "../components/forms/CheckBox";
 const formFields = [
   {
     component: Input,
-    key: 'title',
+    key: "title",
     label: "Title: ",
     name: "title",
     id: "title",
-    required: "required",
+    required: true,
   },
   {
     component: AddressLookupInput,
-    key: 'address',
+    key: "address",
     label: "Address: ",
-    name: "address",
+    name: "fullAddress",
     id: "address",
-    required: "required",
+    required: true,
   },
   {
     component: EventHours,
-    key: 'hours',
+    key: "hours",
     type: "datetime-local",
-    required: "required",
+    required: true,
   },
   {
     component: AttendeesNum,
-    key: 'attendee',
+    key: "attendee",
     type: "number",
   },
   {
     component: Input,
-    key: 'price',
+    key: "price",
     label: "Price: ",
     type: "number",
     name: "price",
@@ -51,7 +53,7 @@ const formFields = [
   },
   {
     component: Select,
-    key: 'cat',
+    key: "cat",
     label: "Category: ",
     name: "category",
     id: "category",
@@ -63,22 +65,22 @@ const formFields = [
   },
   {
     component: Textarea,
-    key: 'desc',
+    key: "desc",
     label: "Description: ",
     name: "description",
     id: "description",
   },
   {
     component: Input,
-    key: 'img',
+    key: "img",
     label: "Image",
     type: "file",
     name: "image",
     id: "image",
   },
   {
-    component: Input,
-    key: 'approval',
+    component: CheckBox,
+    key: "approval",
     label: "Approval required: ",
     type: "checkbox",
     name: "requiredApproval",
@@ -97,14 +99,14 @@ const CreateEventPage = () => {
     },
     startAt: "",
     endAt: "",
-    minimum:'',
-    maximum:'',
+    minimum: "",
+    maximum: "",
     attendees: {
       minimum: "",
       maximum: "",
     },
     location: {
-      coordinates: ""
+      coordinates: "",
     },
     price: "",
     category: "",
@@ -135,7 +137,7 @@ const CreateEventPage = () => {
   return (
     <div className="create-event-page">
       <h1>CreateEventPage</h1>
-      <form className="create-event-form" onSubmit={handleSubmit}>
+      <form className="create-event-form">
         {formFields.map(({ component: Component, ...formField }) => (
           <Component
             key={formField.key}
@@ -145,7 +147,9 @@ const CreateEventPage = () => {
           />
         ))}
 
-        <input type="submit" value="Send" name="" id="" />
+        <Button variant="contained" disableElevation onClick={handleSubmit}>
+          Create event
+        </Button>
       </form>
 
       <NavbarBottom />
