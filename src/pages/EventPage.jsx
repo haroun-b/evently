@@ -13,14 +13,12 @@ const EventPage = () => {
   const [approved, setApproved] = useState([]);
   const [rejected, setRejected] = useState([]);
 
-  const params = useParams();
-
-  const getEventUrl = `/events/${params.id}`;
+  const { id } = useParams();
 
   useEffect(() => {
-    axiosInstance.get(getEventUrl)
-      .then((response) => {
-        setEvent(response.data);
+    axiosInstance.get(`/events/${id}`)
+      .then(({data}) => {
+        setEvent(data);
       })
       .catch((err) => {
         console.error(err);
@@ -31,7 +29,7 @@ const EventPage = () => {
         //   navigate('/500');
         // }
       })
-  }, []);
+  }, [id]);
 
   // function getAttendees() {
   //   console.log('event', event);
