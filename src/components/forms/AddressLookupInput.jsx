@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { startTransition, useEffect, useState } from "react";
 import Input from "./Input";
-import './formStyle.css'
+import "./formStyle.css";
 
 const requestURL = "https://api-adresse.data.gouv.fr/search/";
 
-const AddressLookupInput = ({ setFormData, formData }) => {
+const AddressLookupInput = ({ setFormData, formData, ...inputConfig }) => {
   const [suggestions, setSuggestions] = useState([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [selectedSuggestion, setSelectedSuggestion] = useState("");
@@ -61,12 +61,7 @@ const AddressLookupInput = ({ setFormData, formData }) => {
   };
 
   return (
-    <Input
-      name="fullAddress"
-      label="Address"
-      {...{ setFormData, formData }}
-      required
-    >
+    <Input {...inputConfig} {...{ setFormData, formData }} required>
       {suggestionsOpen && (
         <ul className="suggestion-list">
           {suggestions.map((address) => {

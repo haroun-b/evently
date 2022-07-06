@@ -1,4 +1,8 @@
-import React from "react";
+import * as React from "react";
+import TextField from "@mui/material/TextField";
+import categories from "../../utils/categories.data";
+import MenuItem from '@mui/material/MenuItem';
+import "./formStyle.css";
 
 const Select = ({
   type = "text",
@@ -21,12 +25,10 @@ const Select = ({
   }
   return (
     <div className="group-input">
-      <label htmlFor={id}>{label}</label>
-      <select
-        type={type}
-        name={name}
-        id={id}
-        {...inputConfig}
+      <TextField
+        id="outlined-select-currency"
+        select
+        label="Select"
         value={formData[name]}
         onChange={(event) => {
           setFormData({
@@ -34,19 +36,45 @@ const Select = ({
             [name]: event.target.value,
           });
         }}
-        required
+        helperText="Please select the category"
       >
-        <option value="">--Please choose an option--</option>
-        {options.map((option) => {
-          return (
-            <option key={option} value={option}>
-              {capitalizeFirstLetter(option)}
-            </option>
-          );
-        })}
-      </select>
+        {categories.map((option) => (
+          <MenuItem key={option} value={option}>
+            {capitalizeFirstLetter(option)}
+          </MenuItem>
+        ))}
+      </TextField>
       {children}
     </div>
+
+    // <div className="group-input">
+
+    //   <label htmlFor={id}>{label}</label>
+    //   <select
+    //     type={type}
+    //     name={name}
+    //     id={id}
+    //     {...inputConfig}
+    //     value={formData[name]}
+    //     onChange={(event) => {
+    //       setFormData({
+    //         ...formData,
+    //         [name]: event.target.value,
+    //       });
+    //     }}
+    //     required
+    //   >
+    //     <option value="">--Please choose an option--</option>
+    //     {options.map((option) => {
+    //       return (
+    //         <option key={option} value={option}>
+    //           {capitalizeFirstLetter(option)}
+    //         </option>
+    //       );
+    //     })}
+    //   </select>
+    //   {children}
+    // </div>
   );
 };
 
