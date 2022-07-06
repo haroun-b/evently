@@ -1,12 +1,16 @@
-import React from "react";
+import { useState } from "react";
 import NavbarBottom from "../components/NavbarBottom";
-import FilterBarSearch from "../components/FilterBarSearch";
+import SearchBar from "../components/SearchBar";
 
 const SearchPage = () => {
+  const [events, setEvents] = useState(<></>);
+  
+  
   return (
     <div>
       <h1>Search page</h1>
-      <FilterBarSearch />
+      <SearchBar {...{setEvents}} />
+      {events}
       <NavbarBottom />
     </div>
   );

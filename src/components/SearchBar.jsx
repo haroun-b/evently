@@ -1,19 +1,29 @@
+import * as React from 'react';
 import { useState } from "react";
 import axiosInstance from "../utils/axiosInstance";
+
+import categories from "../utils/categories.data";
+import EventCard from "./EventCard";
 
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import TuneIcon from "@mui/icons-material/Tune";
 import Slider from "@mui/material/Slider";
+import { Stack, TextField } from "@mui/material";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SearchIcon from '@mui/icons-material/Search';
 
-import categories from "../utils/categories.data";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-const FilterBarSearch = () => {
+// TODO: breakdown searchbar into components
+const SearchBar = ({ setEvents }) => {
   const initialState = {
     longitude: undefined,
     latitude: undefined,
     searchRadius: 5,
     city: "",
-    startAfter: new Date().toISOString(),
+    startAfter: "",
     endBefore: "",
     maxPrice: undefined,
     category: "",
@@ -24,6 +34,7 @@ const FilterBarSearch = () => {
 
   const [filterQuery, setFilterQuery] = useState(initialState);
   const [filtersAreOpen, setFiltersAreOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     setFilterQuery({ ...filterQuery, [e.target.name]: e.target.value });
@@ -31,6 +42,7 @@ const FilterBarSearch = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     const reqQuery = Object.entries(filterQuery)
       .filter(([key, value]) => value !== undefined && value.length !== 0)
@@ -41,10 +53,18 @@ const FilterBarSearch = () => {
 
     axiosInstance.get(`/events/?${reqQuery}`)
       .then(({ data }) => {
-        console.log(data);
+        console.log(data)
+        setEvents(
+          data.events.map((event) => {
+            return <EventCard {...event} />
+          })
+        )
+
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
+        setLoading(false);
       });
   }
 
@@ -75,19 +95,26 @@ const FilterBarSearch = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="search">
-        <input
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+      >
+        <TuneIcon
+          onClick={() => setFiltersAreOpen(!filtersAreOpen)}
+        />
+        <TextField
+          label="Search"
           type="search"
           name="search"
-          placeholder="Find upcoming events"
           value={search}
           onChange={e => handleChange(e)}
         />
 
-        <input
-          type="text"
+        <TextField
+          label="City"
           name="city"
-          placeholder="city"
           value={city}
           onChange={e => handleChange(e)}
         />
@@ -95,46 +122,71 @@ const FilterBarSearch = () => {
         <MyLocationIcon
           onClick={() => getCurrentLocation()}
         />
-      </div>
 
-      <div className="filter-bar">
-        <TuneIcon
-          onClick={() => setFiltersAreOpen(!filtersAreOpen)}
-        />
+        <LoadingButton
+          onClick={handleSubmit}
+          endIcon={<SearchIcon />}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+        >
+          Search
+        </LoadingButton>
+      </Stack>
 
+      <>
         {
           filtersAreOpen
           &&
-          <div className="filters">
-            <label htmlFor="searchRadius">Search radius</label>
-            <Slider
-              size="small"
-              aria-label="search radius"
-              valueLabelDisplay="auto"
-              name="searchRadius"
-              min={1}
-              max={100}
-              value={searchRadius}
-              onChange={e => handleChange(e)}
-            />
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
+            <fieldset
+              style={{ width: 800, margin: '0 auto', padding: '0 2rem', borderRadius: 5 }}
+            >
+              <legend
+              style={{color: '#4e4e4e', padding: '.2rem', fontSize: '.8rem' }}
+              >Search Radius</legend>
+              <Slider
+                size="small"
+                aria-label="search radius"
+                valueLabelDisplay="auto"
+                name="searchRadius"
+                min={1}
+                max={100}
+                value={searchRadius}
+                onChange={e => handleChange(e)}
+              />
+            </fieldset>
 
-            <label htmlFor="startAfter">Starts after</label>
-            <input
-              type="datetime-local"
-              name="startAfter"
-              min={new Date().toISOString().slice(0, -8)}
-              value={startAfter}
-              onChange={e => handleChange(e)}
-            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                renderInput={(props) => <TextField {...props} />}
+                label="Starts After"
+                name="startAfter"
+                value={startAfter}
+                minDateTime={Date.now()}
+                onChange={(newValue) => {
+                  setFilterQuery({ ...filterQuery, startAfter: newValue });
+                }}
+              />
 
-            <label htmlFor="endBefore">End Before</label>
-            <input
-              type="datetime-local"
-              name="endBefore"
-              min={startAfter}
-              value={endBefore}
-              onChange={e => handleChange(e)}
-            />
+              <DateTimePicker
+                renderInput={(props) => <TextField {...props} />}
+                label="Ends Before"
+                name="endBefore"
+                value={endBefore}
+                minDateTime={startAfter || Date.now()}
+                onChange={(newValue) => {
+                  setFilterQuery({ ...filterQuery, endBefore: newValue });
+                }}
+              />
+            </LocalizationProvider>
+
+
 
             <label htmlFor="maxPrice">Maximum price</label>
             <input
@@ -199,13 +251,11 @@ const FilterBarSearch = () => {
               <label htmlFor="duoOnly">One on one only</label>
             </fieldset>
 
-          </div>
+          </Stack>
         }
-      </div>
-
-      <input type="submit" value="Send" name="submit" />
+      </>
     </form>
   );
 };
 
-export default FilterBarSearch;
+export default SearchBar;
