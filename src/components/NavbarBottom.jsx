@@ -8,7 +8,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import { Opacity } from "@mui/icons-material";
+
+import "./styles/NavbarBottom.css";
 
 const NavbarBottom = ({ currentUser }) => {
   const [current, setCurrent] = React.useState("");
@@ -52,41 +53,44 @@ const NavbarBottom = ({ currentUser }) => {
   };
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        border: "1px solid #000",
-      }}
-    >
-      <BottomNavigation value={current} onChange={handleChange}>
-        <BottomNavigationAction
-          label="My Events"
-          value="myEvents"
-          icon={<CalendarMonthIcon />}
-        />
+    <div className="navbar-container">
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          borderTop: "1px solid #000",
+          zIndex: 1,
+        }}
+      >
+        <BottomNavigation value={current} onChange={handleChange}>
+          <BottomNavigationAction
+            label="My Events"
+            value="myEvents"
+            icon={<CalendarMonthIcon />}
+          />
 
-        <BottomNavigationAction
-          label="Find"
-          value="find"
-          icon={<SearchIcon />}
-        />
+          <BottomNavigationAction
+            label="Find"
+            value="find"
+            icon={<SearchIcon />}
+          />
 
-        <BottomNavigationAction
-          label="Create"
-          value="create"
-          icon={<AddCircleOutlineIcon />}
-        />
+          <BottomNavigationAction
+            label="Create"
+            value="create"
+            icon={<AddCircleOutlineIcon />}
+          />
 
-        <BottomNavigationAction
-          label="Profile"
-          value="profile"
-          icon={<PermIdentityIcon />}
-        />
-      </BottomNavigation>
-    </Box>
+          <BottomNavigationAction
+            label="Profile"
+            value="profile"
+            icon={<PermIdentityIcon />}
+          />
+        </BottomNavigation>
+      </Box>
+    </div>
   );
 };
 

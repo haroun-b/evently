@@ -6,28 +6,19 @@
 
 /* Mobile */
 .navbar-container {
-  position: fixed;
+  /* position: fixed;
   bottom: 0;
   left: 0;
   width: 100vw;
   height: 55px;
-  z-index: 1;
-  background-color: white;
-  border: 1px solid black;
-
+  
+  background-color: white; */
+  border-top: 1px solid black;
+  z-index: 1 !important;
+  /* 
   display: flex;
   justify-content: center;
-  align-items: center;
-}
-
-.navbar-bottom {
-  display: flex;
-  gap: 8vw;
-  margin: 0 15px;
-}
-
-.navbar-bottom .nav-item {
-  /* border: 1px solid black; */
+  align-items: center; */
 }
 
 /* Tablet  */

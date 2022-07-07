@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 
-import { Avatar, AvatarGroup, Container, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  AvatarGroup,
+  Container,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
 
 import "./styles/EventPage.css";
 import AttendActionBar from "../components/AttendActionBar";
-
 
 const EventPage = ({ currentUser }) => {
   const [event, setEvent] = useState({});
@@ -15,7 +21,8 @@ const EventPage = ({ currentUser }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axiosInstance.get(`/events/${id}`)
+    axiosInstance
+      .get(`/events/${id}`)
       .then(({ data }) => {
         setEvent(data);
       })
@@ -23,57 +30,60 @@ const EventPage = ({ currentUser }) => {
         console.error(err);
         switch (err.response.status) {
           case 401:
-            navigate('/login');
+            navigate("/login");
             break;
           case 404:
-            navigate('/404');
+            navigate("/404");
             break;
           default:
-            navigate('/500');
+            navigate("/500");
             break;
         }
-      })
+      });
   }, [id]);
 
-
   const handleAttend = () => {
-    axiosInstance.post(`/events/${id}/attendees`)
+    axiosInstance
+      .post(`/events/${id}/attendees`)
       .then(({ data }) => {
-        const newState = { myStatus: data.status }
+        const newState = { myStatus: data.status };
 
-        if (data.status === 'approved') {
+        if (data.status === "approved") {
           newState.attendees = {
-            ...(event.attendees),
-            approved: [...(event.attendees.approved), data]
-          }
+            ...event.attendees,
+            approved: [...event.attendees.approved, data],
+          };
         }
 
         setEvent({ ...event, ...newState });
       })
       .catch((err) => {
         console.error(err);
-      })
-  }
+      });
+  };
 
   const handleCancel = () => {
-    axiosInstance.delete(`/events/${id}/attendees`)
+    axiosInstance
+      .delete(`/events/${id}/attendees`)
       .then(({ data }) => {
         const attendees = event.attendees;
-        const newApproved = event.attendees.approved.filter(attendee => attendee.user.username !== currentUser);
+        const newApproved = event.attendees.approved.filter(
+          (attendee) => attendee.user.username !== currentUser
+        );
 
         setEvent({
           ...event,
           myStatus: data.status,
-          attendees: { ...attendees, approved: newApproved }
+          attendees: { ...attendees, approved: newApproved },
         });
       })
       .catch((err) => {
         console.error(err);
-      })
-  }
+      });
+  };
 
   const openChat = () => {
-    navigate(`/events/${id}/chat`)
+    navigate(`/events/${id}/chat`);
   };
 
   const handlers = { handleAttend, handleCancel, openChat };
@@ -84,152 +94,164 @@ const EventPage = ({ currentUser }) => {
 
   return (
     <>
-      <IconButton
-        aria-label="close"
-        sx={{
-          position: 'absolute',
-          top: '.2rem',
-          right: '.2rem',
-          zIndex: 1,
-          color: '#000'
-        }}
-        onClick={() => {navigate('..')}}
-      >
-        <CloseRounded />
-      </IconButton>
-
-      <Stack
-        sx={{
-          textAlign: 'left',
-          marginBottom: '5rem',
-          marginTop: '2rem'
-        }}
-      >
-        <img
-          src={event.imageUrl}
-          alt={event.title}
-          style={{
-            height: '5%',
-            marginBottom: '1rem'
-          }}
-        />
-
-        <Container>
-          <Typography variant="h4" component="h1">
-            {event.title}
-          </Typography>
-
-          <Typography variant="subtitle2" component="h2">
-            {`From: ${event.startAt.slice(0, -8)}`}
-          </Typography>
-          <Typography variant="subtitle2" component="h2">
-            {`To: ${event.endAt.slice(0, -8)}`}
-          </Typography>
-
-          <Typography variant="subtitle1" component="h2">
-            {`${event.address.street} - ${event.address.city}`}
-          </Typography>
-        </Container>
-
-        <Container>
-          <Typography variant="h6" component="h2">
-            Description:
-          </Typography>
-
-          <Typography variant="body1">
-            {event.description || 'Nothing...'}
-          </Typography>
-        </Container>
-
-        <Stack className="eventParticipents"
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={0}
+      <div className="event-page">
+        <IconButton
+          aria-label="close"
           sx={{
-            marginTop: '2rem'
+            position: "absolute",
+            top: ".2rem",
+            right: ".2rem",
+            zIndex: 1,
+            color: "#000",
+          }}
+          onClick={() => {
+            navigate(-1);
           }}
         >
-          <Stack
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="center"
-            sx={{
-              width: '50%',
-              height: '5rem',
-              padding: '.3rem',
-              backgroundColor: '#fff',
-              '&:hover': {
-                backgroundColor: '#bfbfbf',
-                opacity: [0.9, 0.8, 0.7],
-              }
+          <CloseRounded />
+        </IconButton>
+
+        <Stack
+          sx={{
+            textAlign: "left",
+            marginBottom: "5rem",
+            marginTop: "2rem",
+            direction: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={event.imageUrl}
+            alt={event.title}
+            style={{
+              height: "5%",
+              marginBottom: "1rem",
             }}
-            onClick={() => {navigate(`/users/${event.creator.username}`)}}
-          >
-            <Typography variant="h6" component="h2">
-              Creator
+          />
+
+          <Container>
+            <Typography variant="h4" component="h1">
+              {event.title}
             </Typography>
-            <Avatar
-              alt={event.creator.name}
-              src={event.creator.imageUrl}
-            />
-          </Stack>
+
+            <Typography variant="subtitle2" component="h2">
+              {`From: ${event.startAt.slice(0, -8)}`}
+            </Typography>
+            <Typography variant="subtitle2" component="h2">
+              {`To: ${event.endAt.slice(0, -8)}`}
+            </Typography>
+
+            <Typography variant="subtitle1" component="h2">
+              {`${event.address.street} - ${event.address.city}`}
+            </Typography>
+          </Container>
+
+          <Container>
+            <Typography variant="h6" component="h2">
+              Description:
+            </Typography>
+
+            <Typography variant="body1">
+              {event.description || "Nothing..."}
+            </Typography>
+          </Container>
 
           <Stack
-            direction="column"
-            justifyContent="flex-start"
+            className="eventParticipents"
+            direction="row"
+            justifyContent="center"
             alignItems="center"
+            spacing={0}
             sx={{
-              width: '50%',
-              height: '5rem',
-              padding: '.3rem',
-              backgroundColor: '#fff',
-              '&:hover': {
-                backgroundColor: '#bfbfbf',
-                opacity: [0.9, 0.8, 0.7],
-              },
+              marginTop: "2rem",
             }}
-            onClick={() => { navigate(`/events/${id}/attendees`)}}
           >
-            <Typography variant="h6" component="h2">
-              Attendees
-            </Typography>
-            <AvatarGroup max={4}>
-              {(() => {
-                const attendees = event.attendees.requests || event.attendees.approved;
+            <Stack
+              direction="column"
+              justifyContent="flex-start"
+              alignItems="center"
+              sx={{
+                width: "50%",
+                height: "5rem",
+                padding: ".3rem",
+                backgroundColor: "#fff",
+                "&:hover": {
+                  backgroundColor: "#bfbfbf",
+                  opacity: [0.9, 0.8, 0.7],
+                },
+              }}
+              onClick={() => {
+                navigate(`/users/${event.creator.username}`);
+              }}
+            >
+              <Typography variant="h6" component="h2">
+                Creator
+              </Typography>
+              <Avatar alt={event.creator.name} src={event.creator.imageUrl} />
+            </Stack>
 
-                return attendees.map(attendee =>
-                  <Avatar alt={attendee.user.name} src={attendee.user.imageUrl} key={attendee.user.id} />
-                )
-              })()}
-            </AvatarGroup>
+            <Stack
+              direction="column"
+              justifyContent="flex-start"
+              alignItems="center"
+              sx={{
+                width: "50%",
+                height: "5rem",
+                padding: ".3rem",
+                backgroundColor: "#fff",
+                "&:hover": {
+                  backgroundColor: "#bfbfbf",
+                  opacity: [0.9, 0.8, 0.7],
+                },
+              }}
+              onClick={() => {
+                navigate(`/events/${id}/attendees`);
+              }}
+            >
+              <Typography variant="h6" component="h2">
+                Attendees
+              </Typography>
+              <AvatarGroup max={4}>
+                {(() => {
+                  const attendees =
+                    event.attendees.requests || event.attendees.approved;
+
+                  return attendees.map((attendee) => (
+                    <Avatar
+                      alt={attendee.user.name}
+                      src={attendee.user.imageUrl}
+                      key={attendee.user.id}
+                    />
+                  ));
+                })()}
+              </AvatarGroup>
+            </Stack>
           </Stack>
         </Stack>
-      </Stack>
 
-      <Stack className="eventParticipents"
-        direction="row"
-        justifyContent="space-around"
-        alignItems="center"
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          height: '4rem',
-          backgroundColor: '#fff',
-          border: '1px solid #000'
-        }}
-      >
-        <Typography variant="h5" component="h2">
-          {event.price || 'Free'}
-        </Typography>
+        <Stack
+          className="eventParticipents"
+          direction="row"
+          justifyContent="space-around"
+          alignItems="center"
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            height: "4rem",
+            backgroundColor: "#fff",
+            border: "1px solid #000",
+          }}
+        >
+          <Typography variant="h5" component="h2">
+            {event.price || "Free"}
+          </Typography>
 
-        <AttendActionBar
-          {...handlers}
-          attendanceStatus={event.myStatus}
-        />
-      </Stack>
+          <AttendActionBar {...handlers} attendanceStatus={event.myStatus} />
+        </Stack>
+      </div>
     </>
   );
 };

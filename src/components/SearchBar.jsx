@@ -16,6 +16,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
+import './styles/SearchBar.css'
+
 // TODO: breakdown searchbar into components
 const SearchBar = ({ setEvents }) => {
   const initialState = {
@@ -94,7 +96,9 @@ const SearchBar = ({ setEvents }) => {
   } = filterQuery;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className='search-bar'>
+
+    <form onSubmit={handleSubmit} className='search-form'>
       <Stack
         direction="row"
         justifyContent="center"
@@ -255,6 +259,7 @@ const SearchBar = ({ setEvents }) => {
         }
       </>
     </form>
+    </div>
   );
 };
 

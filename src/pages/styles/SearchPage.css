@@ -1,0 +1,29 @@
+* {
+  /* border: 1px solid red; */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile */
+.search-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+  margin-top: 40px;
+}
+
+/* Tablet  */
+@media (min-width: 600px) {
+  .search-page {
+    flex-wrap: wrap;
+  }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+}
