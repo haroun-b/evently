@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { Chip } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import axiosInstance from "../utils/axiosInstance";
 
 import "./styles/AttendeeCard.css";
@@ -53,23 +54,29 @@ const AttendeeCard = (props) => {
         </div>
       </div>
       <div className="attendee-card-status">
-        <form>
-          <select
-            className={colorButton}
-            name="attendee-status"
-            id="attendee-status"
-            onChange={(e) => {
-              handleChange(e);
-            }}
-            value={status}
-          >
-            {allStatus.map((value) => (
-              <option value={value} key={value}>
-                {capitalizeFirstLetter(value)}
-              </option>
-            ))}
-          </select>
-        </form>
+        {
+          props.isCurrentUserCreator
+          ?
+            <form>
+              <select
+                className={colorButton}
+                name="attendee-status"
+                id="attendee-status"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+                value={status}
+              >
+                {allStatus.map((value) => (
+                  <option value={value} key={value}>
+                    {capitalizeFirstLetter(value)}
+                  </option>
+                ))}
+              </select>
+            </form>
+            :
+            <Chip label={status} color="success" variant="outlined" />
+        }
       </div>
     </div>
   );

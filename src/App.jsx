@@ -41,7 +41,7 @@ function App() {
               <Route path="events/:id" element={<Event currentUser={username} />} />
               <Route
                 path="events/:id/attendees"
-                element={<Attendees />} />
+                element={<Attendees currentUser={username} />} />
               <Route path="events/:id/chat" element={<Chat />} />
             </Route>
           </Route>
