@@ -1,3 +1,4 @@
+import { Button, Typography } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
 const AttendActionBar = ({
@@ -7,40 +8,53 @@ const AttendActionBar = ({
   openChat,
 }) => {
   let stateAndbuttons = "";
+
   switch (attendanceStatus) {
     case "pending":
       stateAndbuttons = (
         <>
-          <p>Pending</p>
-          <button onClick={handleCancel}>Cancel</button>
+          <Typography variant="subtitle1" component="p">
+            Pending
+          </Typography>
+          <Button variant="outlined" onClick={handleCancel}>Cancel</Button>
         </>
       );
       break;
     case "approved":
       stateAndbuttons = (
         <>
-          <p>Approved</p>
-          <button onClick={handleCancel}>Cancel</button>
-          <button onClick={openChat}>Chat</button>
+          <Typography variant="subtitle1" component="p">
+            Approved
+          </Typography>
+          <Button variant="outlined" onClick={handleCancel}>Cancel</Button>
+          <Button variant="contained" onClick={openChat}>Chat</Button>
         </>
       );
       break;
     case "rejected":
-      stateAndbuttons = <p>Rejected</p>;
+      stateAndbuttons = <>
+      <Typography variant="subtitle1" component="p">
+        Rejected
+      </Typography>
+      <Button variant="contained" disabled onClick={handleAttend}>Attend</Button>
+      </>;
       break;
     case "creator":
-      stateAndbuttons = <button onClick={openChat}>Chat</button>;
+      stateAndbuttons = <Button variant="contained" onClick={openChat}>Chat</Button>;
       break;
     default:
-      stateAndbuttons = <button onClick={handleAttend}>Attend</button>;
+      stateAndbuttons = <Button variant="contained" onClick={handleAttend}>Attend</Button>;
       break;
   }
 
   return (
-    <Stack direction="row">
-      {/* <p>Free</p> */}
-
-      <div className="attendance">{stateAndbuttons}</div>
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-around"
+      spacing={2}
+    >
+      {stateAndbuttons}
     </Stack>
   );
 };

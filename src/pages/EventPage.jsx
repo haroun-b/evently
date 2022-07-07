@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import AttendActionBar from "../components/AttendActionBar";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 
+import { Avatar, AvatarGroup, Container, IconButton, Stack, Typography } from "@mui/material";
+import { CloseRounded } from "@mui/icons-material";
+
 import "./styles/EventPage.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { Avatar, AvatarGroup, Box, Container, Stack, Typography } from "@mui/material";
+import AttendActionBar from "../components/AttendActionBar";
 
 
 const EventPage = ({ currentUser }) => {
@@ -70,7 +72,9 @@ const EventPage = ({ currentUser }) => {
       })
   }
 
-  const openChat = () => { };
+  const openChat = () => {
+    navigate(`/events/${id}/chat`)
+  };
 
   const handlers = { handleAttend, handleCancel, openChat };
 
@@ -79,116 +83,154 @@ const EventPage = ({ currentUser }) => {
   }
 
   return (
-    <Stack
-      sx={{
-        textAlign: 'left'
-      }}
-    >
-      <Stack className="topActionBar">
-
-      </Stack>
-
-      <img
-        src={event.imageUrl}
-        alt={event.title}
-        style={{
-          height: '5%',
+    <>
+      <IconButton
+        aria-label="close"
+        sx={{
+          position: 'absolute',
+          top: '.2rem',
+          right: '.2rem',
+          zIndex: 1,
+          color: '#000'
         }}
-      />
+        onClick={() => {navigate('..')}}
+      >
+        <CloseRounded />
+      </IconButton>
 
-      <Container>
-        <Typography variant="h4" component="h1">
-          {event.title}
-        </Typography>
+      <Stack
+        sx={{
+          textAlign: 'left',
+          marginBottom: '5rem',
+          marginTop: '2rem'
+        }}
+      >
+        <img
+          src={event.imageUrl}
+          alt={event.title}
+          style={{
+            height: '5%',
+            marginBottom: '1rem'
+          }}
+        />
 
-        <Typography variant="subtitle2" component="h2">
-          {`From: ${event.startAt.slice(0, -8)}`}
-        </Typography>
-        <Typography variant="subtitle2" component="h2">
-          {`To: ${event.endAt.slice(0, -8)}`}
-        </Typography>
+        <Container>
+          <Typography variant="h4" component="h1">
+            {event.title}
+          </Typography>
 
-        <Typography variant="subtitle1" component="h2">
-          {`${event.address.street} - ${event.address.city}`}
-        </Typography>
-      </Container>
+          <Typography variant="subtitle2" component="h2">
+            {`From: ${event.startAt.slice(0, -8)}`}
+          </Typography>
+          <Typography variant="subtitle2" component="h2">
+            {`To: ${event.endAt.slice(0, -8)}`}
+          </Typography>
 
-      <Container>
-        <Typography variant="h6" component="h2">
-          Description:
-        </Typography>
+          <Typography variant="subtitle1" component="h2">
+            {`${event.address.street} - ${event.address.city}`}
+          </Typography>
+        </Container>
 
-        <Typography variant="body1">
-          {event.description}
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur aspernatur facere asperiores alias, laborum fuga nisi enim ipsa reiciendis quod inventore et deserunt cum soluta iste ab reprehenderit dolor pariatur.
-        </Typography>
-      </Container>
+        <Container>
+          <Typography variant="h6" component="h2">
+            Description:
+          </Typography>
+
+          <Typography variant="body1">
+            {event.description || 'Nothing...'}
+          </Typography>
+        </Container>
+
+        <Stack className="eventParticipents"
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={0}
+          sx={{
+            marginTop: '2rem'
+          }}
+        >
+          <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="center"
+            sx={{
+              width: '50%',
+              height: '5rem',
+              padding: '.3rem',
+              backgroundColor: '#fff',
+              '&:hover': {
+                backgroundColor: '#bfbfbf',
+                opacity: [0.9, 0.8, 0.7],
+              }
+            }}
+            onClick={() => {navigate(`/users/${event.creator.username}`)}}
+          >
+            <Typography variant="h6" component="h2">
+              Creator
+            </Typography>
+            <Avatar
+              alt={event.creator.name}
+              src={event.creator.imageUrl}
+            />
+          </Stack>
+
+          <Stack
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="center"
+            sx={{
+              width: '50%',
+              height: '5rem',
+              padding: '.3rem',
+              backgroundColor: '#fff',
+              '&:hover': {
+                backgroundColor: '#bfbfbf',
+                opacity: [0.9, 0.8, 0.7],
+              },
+            }}
+            onClick={() => { navigate(`/events/${id}/attendees`)}}
+          >
+            <Typography variant="h6" component="h2">
+              Attendees
+            </Typography>
+            <AvatarGroup max={4}>
+              {(() => {
+                const attendees = event.attendees.requests || event.attendees.approved;
+
+                return attendees.map(attendee =>
+                  <Avatar alt={attendee.user.name} src={attendee.user.imageUrl} key={attendee.user.id} />
+                )
+              })()}
+            </AvatarGroup>
+          </Stack>
+        </Stack>
+      </Stack>
 
       <Stack className="eventParticipents"
         direction="row"
-        justifyContent="center"
+        justifyContent="space-around"
         alignItems="center"
-        spacing={0}
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          height: '4rem',
+          backgroundColor: '#fff',
+          border: '1px solid #000'
+        }}
       >
-        <Stack
-          direction="column"
-          justifyContent="flex-start"
-          alignItems="center"
-          sx={{
-            width: '50%',
-            height: '5rem',
-            padding: '.3rem',
-            backgroundColor: '#fff',
-            '&:hover': {
-              backgroundColor: '#bfbfbf',
-              opacity: [0.9, 0.8, 0.7],
-            },
-          }}
-        >
-          <Typography variant="h6" component="h2">
-            Creator
-          </Typography>
-          <Avatar
-            alt={event.creator.name}
-            src={event.creator.imageUrl}
-          />
-        </Stack>
+        <Typography variant="h5" component="h2">
+          {event.price || 'Free'}
+        </Typography>
 
-        <Stack
-          direction="column"
-          justifyContent="flex-start"
-          alignItems="center"
-          sx={{
-            width: '50%',
-            height: '5rem',
-            padding: '.3rem',
-            backgroundColor: '#fff',
-            '&:hover': {
-              backgroundColor: '#bfbfbf',
-              opacity: [0.9, 0.8, 0.7],
-            },
-          }}
-        >
-          <Typography variant="h6" component="h2">
-            Attendees
-          </Typography>
-          <AvatarGroup max={4}>
-            {(() => {
-              const attendees = event.attendees.requests || event.attendees.approved;
-
-              return attendees.map(attendee =>
-                <Avatar alt={attendee.user.name} src={attendee.user.imageUrl} key={attendee.user.id} />
-              )
-            })()}
-          </AvatarGroup>
-        </Stack>
+        <AttendActionBar
+          {...handlers}
+          attendanceStatus={event.myStatus}
+        />
       </Stack>
-
-      <AttendActionBar
-        {...handlers}
-        attendanceStatus={event.myStatus}
-      />
-    </Stack>
+    </>
   );
 };
 
