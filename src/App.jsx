@@ -15,13 +15,15 @@ import EventLayout from "./pages/EventLayoutPage";
 import Verify from "./pages/VerifyPage";
 import NotFound from "./pages/NotFoundPage";
 import Oops from "./pages/OopsPage";
-import { useMemo } from "react";
+import { useState } from "react";
 
 function App() {
-  const { username, authToken } = useMemo(
-    () => localStorage, [localStorage.username, localStorage.authToken]
-  );
+  const [currentUser, setCurrentUser] = useState({
+    username: localStorage.username,
+    authToken: localStorage.authToken
+  })
 
+  const { username, authToken } = currentUser;
 
   return (
     <div className="App">
@@ -49,7 +51,9 @@ function App() {
             authToken ? <Navigate to="/events/mine" /> : <Signup />
           } />
           <Route path="/login" element={
-            authToken ? <Navigate to="/events/mine" /> : <Login />
+            authToken ?
+              <Navigate to="/events/mine" /> :
+              <Login {...{ setCurrentUser }} />
           } />
           <Route path="/verify" element={
             authToken ? <Navigate to="/events/mine" /> : <Verify />
