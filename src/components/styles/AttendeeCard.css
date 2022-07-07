@@ -1,20 +1,39 @@
 .attendee-card-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 5px;
   padding: 5px 0;
-  margin: 5px;
+  margin: 10px 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.attendee-card-image {
+.attendee-card-container .img-name {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 30px;
+}
+
+.attendee-card-container img {
+  object-fit: cover;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 
 .attendee-card-info {
   text-align: left;
 }
 
-.attendee-card-status {
+.attendee-card-status select {
+  padding: 3px;
+  border-radius: 3px;
+}
+
+.approved {
+  background-color: rgb(25, 118, 210);
+  color: white;
 }
