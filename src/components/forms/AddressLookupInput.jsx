@@ -1,16 +1,22 @@
+import * as React from "react";
 import axios from "axios";
-import React, { startTransition, useEffect, useState } from "react";
+// import React, { startTransition, useEffect, useState } from "react";
 import Input from "./Input";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import "./formStyle.css";
 
 const requestURL = "https://api-adresse.data.gouv.fr/search/";
 
 const AddressLookupInput = ({ setFormData, formData, ...inputConfig }) => {
-  const [suggestions, setSuggestions] = useState([]);
-  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-  const [selectedSuggestion, setSelectedSuggestion] = useState("");
-  const [controller, setController] = useState(null);
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [suggestionsOpen, setSuggestionsOpen] = React.useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = React.useState("");
+  const [controller, setController] = React.useState(null);
 
+  console.log("formData.fullAddress", formData.fullAddress);
+  console.log("suggestions", suggestions);
   // Search for addresses proposal
   const searchAddress = (fullAddress) => {
     const newController = new AbortController();
@@ -21,7 +27,14 @@ const AddressLookupInput = ({ setFormData, formData, ...inputConfig }) => {
       .then((response) => {
         console.log("response.data", response.data.features);
         setSuggestions(response.data.features);
-        setSuggestionsOpen(true);
+        console.log("fullAddress", fullAddress);
+        console.log("fullAddress.length", fullAddress.length);
+        console.log("suggestions.length", suggestions.length);
+        if (suggestions.length === 0) {
+          setSuggestionsOpen(false);
+        } else {
+          setSuggestionsOpen(true);
+        }
       })
       .catch((error) => {
         if (signal.aborted) {
@@ -34,11 +47,14 @@ const AddressLookupInput = ({ setFormData, formData, ...inputConfig }) => {
     setController(newController);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
+    if (formData.fullAddress.length === 0) {
+      setSuggestionsOpen(false);
+    }
     if (selectedSuggestion === formData.fullAddress) {
       return;
     }
-    startTransition(() => searchAddress(formData.fullAddress));
+    React.startTransition(() => searchAddress(formData.fullAddress));
   }, [formData.fullAddress]);
 
   // Handle user click on a suggestion
@@ -63,21 +79,39 @@ const AddressLookupInput = ({ setFormData, formData, ...inputConfig }) => {
   return (
     <Input {...inputConfig} {...{ setFormData, formData }} required>
       {suggestionsOpen && (
-        <ul className="suggestion-list">
+        <List dense={true} className="suggestion-list">
           {suggestions.map((address) => {
             return (
-              <li
+              <ListItem
                 key={address.properties.id}
                 onClick={() => handleSelect(address)}
               >
-                <strong>{address.properties.label}</strong>
-              </li>
+                <ListItemText
+                  primary={address.properties.name}
+                  secondary={`${address.properties.postcode} ${address.properties.city}`}
+                />
+              </ListItem>
             );
           })}
-        </ul>
+        </List>
       )}
     </Input>
   );
 };
 
 export default AddressLookupInput;
+
+{
+  /* <Demo>
+            <List dense={dense}>
+              {generate(
+                <ListItem>
+                  <ListItemText
+                    primary="Single-line item"
+                    secondary={secondary ? 'Secondary text' : null}
+                  />
+                </ListItem>,
+              )}
+            </List>
+          </Demo> */
+}

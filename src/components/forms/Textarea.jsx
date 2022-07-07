@@ -18,7 +18,6 @@ export const Textarea = ({
         label={label}
         {...inputConfig}
         name={name}
-        variant="standard"
         InputLabelProps={{
           shrink: true,
         }}

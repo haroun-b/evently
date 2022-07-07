@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInstance";
 
 const MyEventsPage = () => {
   const [myEvents, setMyEvents] = useState([]);
-  console.log(myEvents);
+  console.log('myEvents', myEvents);
 
   const url = `/me/events`;
 
@@ -59,6 +59,7 @@ const MyEventsPage = () => {
       <FilterBar handleFilter={handleFilter} filter={filter} {...data} />
       <h1>My Events</h1>
       {myEvents.map((event) => {
+        console.log('event', event)
         return <EventCard key={event._id} {...event} />;
       })}
       <NavbarBottom />

@@ -29,12 +29,11 @@ const Input = ({
         {...inputConfig}
         type={type}
         name={name}
-        variant="standard"
         InputLabelProps={{
           shrink: true,
         }}
         value={formData[name]}
-        onChange={(event) => {
+        onInput={(event) => {
           setFormData({
             ...formData,
             [name]: event.target.value,
