@@ -16,11 +16,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
 export default function LoginPage() {
   const [open, setOpen] = React.useState(false);
+  const [passwordReset, setPasswordReset] = React.useState({});
   const [credentials, setCredentials] = React.useState({
     alias: "",
     password: "",
@@ -66,13 +68,28 @@ export default function LoginPage() {
 
   const handleForgotPassowrd = () => {
     axios({
-      method: "POST",
+      method: "PATCH",
       url: `https://the-evently-api.herokuapp.com/reset-password`,
-      data: request,
-    }).catch((err) => {
-      console.error(err);
-      // TODO: display appropriate error based on error response
-    });
+      data: { email: credentials.alias },
+    })
+      .then(() => {
+        setPasswordReset({isSuccessful: true});
+        setTimeout(() => {
+          setPasswordReset({ isSuccessful: false });
+        }, 2000)
+      })
+      .catch((err) => {
+        console.error(err)
+        if (err.status === 404) {
+          setPasswordReset({ errorMsg: 'Email does not exist!' });
+        } else {
+          setPasswordReset({ errorMsg: 'Something went wrong!' });
+        }
+
+        setTimeout(() => {
+          setPasswordReset({});
+        }, 2000)
+      });
 
     handleClose();
   };
@@ -88,6 +105,24 @@ export default function LoginPage() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
+        {
+          passwordReset.isSuccessful
+            ?
+            <Alert severity="success">
+              A password reset link was sent to your email!
+            </Alert>
+            :
+            <></>
+        }
+        {
+          passwordReset.errorMsg
+            ?
+            <Alert severity="error">
+              {passwordReset.errorMsg}
+            </Alert>
+            :
+            <></>
+        }
         <CssBaseline />
         <Box
           sx={{
@@ -166,6 +201,9 @@ export default function LoginPage() {
                         type="email"
                         fullWidth
                         variant="standard"
+                        name="alias"
+                        value={credentials.alias}
+                        onChange={e => { handleChange(e) }}
                       />
                     </DialogContent>
                     <DialogActions>
@@ -183,7 +221,6 @@ export default function LoginPage() {
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );
