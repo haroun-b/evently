@@ -20,7 +20,6 @@ const ProfilePage = () => {
 
     axiosInstance.get(url)
       .then(({ data }) => {
-        console.log(data)
         setUserInfo(data);
       })
       .catch((err) => {
@@ -54,19 +53,24 @@ const ProfilePage = () => {
     }
   }
 
+  const cancelEdit = () => {
+    setEditOn(false);
+    setUserInfo({...userInfo, newImage: undefined, newImageUrl: undefined})
+  }
+
   const handleEdit = () => {
     const form = new FormData();
     const {name, bio} = userInfo;
-    const imageUrl = userInfo.newImage;
+    const file = userInfo.newImage;
 
-    Object.entries({ name, bio, imageUrl }).forEach(([key, value]) => {
+    Object.entries({ name, bio, file }).forEach(([key, value]) => {
       form.append(key, value);
     });
 
     axiosInstance.patch('/me', form)
       .then(({ data }) => {
-        console.log(data)
         setEditOn(false);
+        setUserInfo(data);
       })
       .catch((err) => {
         console.error(err);
@@ -94,7 +98,7 @@ const ProfilePage = () => {
         {
           username === currentUser
             ?
-            <EditProfileActions {...{ editOn, setEditOn, handleEdit }} />
+            <EditProfileActions {...{ editOn, setEditOn, handleEdit, cancelEdit }} />
             :
             <IconButton
               aria-label="close"

@@ -4,7 +4,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { IconButton } from '@mui/material';
 
 
-const EditProfileActions = ({ editOn, setEditOn, handleEdit }) => {
+const EditProfileActions = ({ editOn, setEditOn, handleEdit, cancelEdit }) => {
   return (
     <>
       {
@@ -20,7 +20,7 @@ const EditProfileActions = ({ editOn, setEditOn, handleEdit }) => {
 
             <IconButton
               aria-label="cancel"
-              onClick={() => { setEditOn(false) }}
+              onClick={cancelEdit}
             >
               <HighlightOffIcon />
             </IconButton>
