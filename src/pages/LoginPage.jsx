@@ -22,7 +22,7 @@ const theme = createTheme();
 
 export default function LoginPage() {
   const [open, setOpen] = React.useState(false);
-  const [passwordResetIsSuccessful, SetasswordResetIsSuccessful] =
+  const [passwordResetIsSuccessful, setPasswordResetIsSuccessful] =
     React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [credentials, setCredentials] = React.useState({
@@ -90,9 +90,9 @@ export default function LoginPage() {
       data: { email: credentials.alias },
     })
       .then(() => {
-        passwordResetIsSuccessful(true);
+        setPasswordResetIsSuccessful(true);
         setTimeout(() => {
-          passwordResetIsSuccessful(false);
+          setPasswordResetIsSuccessful(false);
         }, 2000);
       })
       .catch((err) => {

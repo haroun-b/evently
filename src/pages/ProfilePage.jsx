@@ -102,7 +102,7 @@ const ProfilePage = () => {
             :
             <IconButton
               aria-label="close"
-              onClick={() => { navigate('..') }}
+              onClick={() => { navigate(-1) }}
             >
               <CloseRounded />
             </IconButton>

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 import Signup from "./pages/SignupPage";
 import Login from "./pages/LoginPage";
@@ -18,7 +18,9 @@ import Oops from "./pages/OopsPage";
 import { useMemo } from "react";
 
 function App() {
-  const { username, authToken } = useMemo(() => localStorage, [localStorage]);
+  const { username, authToken } = useMemo(
+    () => localStorage, [localStorage.username, localStorage.authToken]
+  );
 
 
   return (
@@ -36,16 +38,22 @@ function App() {
             <Route path="/" element={<EventLayout />}>
               <Route path="events/:id" element={<Event currentUser={username} />} />
               <Route
-              path="events/:id/attendees"
-              element={<Attendees />} />
+                path="events/:id/attendees"
+                element={<Attendees />} />
               <Route path="events/:id/chat" element={<Chat />} />
             </Route>
           </Route>
 
 
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/verify" element={<Verify />} />
+          <Route path="/signup" element={
+            authToken ? <Navigate to="/events/mine" /> : <Signup />
+          } />
+          <Route path="/login" element={
+            authToken ? <Navigate to="/events/mine" /> : <Login />
+          } />
+          <Route path="/verify" element={
+            authToken ? <Navigate to="/events/mine" /> : <Verify />
+          } />
           <Route path="*" element={<NotFound />} />
           <Route path="500" element={<Oops />} />
         </Routes>
