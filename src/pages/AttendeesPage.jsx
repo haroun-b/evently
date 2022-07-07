@@ -71,7 +71,9 @@ const AttendeesPage = ({currentUser}) => {
 
   return (
     <div>
-      <FilterBar handleFilter={handleFilter} filter={filter} {...data} />
+      {isCurrentUserCreator &&
+      <FilterBar handleFilter={handleFilter} filter={filter} {...data} />}
+
       <h1>AttendeesPage</h1>
       {
         attendees
