@@ -1,13 +1,34 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from 'axios';
-import './styles/LoginPage.css'
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import { Link, useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-const LoginPage = () => {
-  const [credentials, setCredentials] = useState({
-    alias: '',
-    password: '',
+const theme = createTheme();
+
+export default function LoginPage() {
+  const [open, setOpen] = React.useState(false);
+  const [credentials, setCredentials] = React.useState({
+    alias: "",
+    password: "",
   });
+
+  console.log("credentials", credentials);
+
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -15,7 +36,7 @@ const LoginPage = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const request = {password};
+    const request = { password };
 
     if (alias.includes(`@`)) {
       request.email = alias;
@@ -24,64 +45,146 @@ const LoginPage = () => {
     }
 
     axios({
-      method: 'POST',
+      method: "POST",
       url: `https://the-evently-api.herokuapp.com/login`,
       data: request,
     })
-      .then(({data}) => {
+      .then(({ data }) => {
         window.localStorage.setItem(`authToken`, data.authToken);
         window.localStorage.setItem(`username`, data.username);
+        navigate(`/`);
       })
       .catch((err) => {
-        console.error(err)
+        console.error(err);
         // TODO: display appropriate error based on error response
       });
-
   }
 
-  const {
-    alias,
-    password
-  } = credentials;
+  const { alias, password } = credentials;
 
+  // Forgot password
+
+  const handleForgotPassowrd = () => {
+    axios({
+      method: "POST",
+      url: `https://the-evently-api.herokuapp.com/reset-password`,
+      data: request,
+    }).catch((err) => {
+      console.error(err);
+      // TODO: display appropriate error based on error response
+    });
+
+    handleClose();
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <div>
-      <h1>Login Page</h1>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Log in
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="alias"
+              label="Username or Email Address"
+              name="alias"
+              autoFocus
+              value={alias}
+              onChange={(e) => handleChange(e)}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => handleChange(e)}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Log In
+            </Button>
+            <Grid
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="flex-start"
+            >
+              <Grid item>
+                <div>
+                  <Link to={``} onClick={handleClickOpen}>
+                    <p>Forgot password</p>
+                  </Link>
 
-      <div className="login-container">
-
-        <form className="login-form" onSubmit={handleSubmit}>
-
-          <label htmlFor="">Username or email</label>
-          <input
-            type="text"
-            name="alias"
-            value={alias}
-            onChange={e => handleChange(e)}
-          />
-
-          <label htmlFor="">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={e => handleChange(e)}
-          />
-
-          <div className="login-buttons">
-            <input type="submit" value="Login" name="login" />
-
-            <Link to={`/signup`}>
-              <button>Create account</button>
-            </Link>
-          </div>
-
-          <p>Reset Password</p>
-        </form>
-      </div>
-    </div>
+                  <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle>Reset password</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        To reset your password, please enter your email address
+                        here, and then check your mail box.
+                      </DialogContentText>
+                      <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                        variant="standard"
+                      />
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Cancel</Button>
+                      <Button onClick={handleForgotPassowrd}>Send</Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
+              </Grid>
+              <Grid item>
+                <Link to={`/signup`}>
+                  <p>Create account</p>
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
+      </Container>
+    </ThemeProvider>
   );
-};
-
-export default LoginPage;
+}
