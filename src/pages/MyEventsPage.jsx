@@ -34,16 +34,15 @@ const MyEventsPage = () => {
   // Load all my events when landing on page
   useEffect(() => {
     // Get all my events
-    try {
       axiosInstance.get(url).then((response) => {
         const mergedEvents = response.data.attendedByUser.concat(
           response.data.createdByUser
         );
         setMyEvents(mergedEvents);
-      });
-    } catch (error) {
-      console.error(error);
-    }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
   }, []);
 
   const data = {
