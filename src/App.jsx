@@ -26,7 +26,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<ProtectedLayout {...{ authToken }} />}>
-            <Route path="" element={<MainLayout {...{ username }} />}>
+            <Route path="" element={<MainLayout currentUser={username} />}>
               <Route path="users/:username" element={<Profile />} />
               <Route path="events/mine" element={<MyEvents />} />
               <Route path="events/find" element={<Search />} />
@@ -34,8 +34,10 @@ function App() {
             </Route>
 
             <Route path="" element={<EventLayout />}>
-              <Route path="events/:id" element={<Event />} />
-              <Route path="events/:id/attendees" element={<Attendees />} />
+              <Route path="events/:id" element={<Event currentUser={username} />} />
+              <Route
+              path="events/:id/attendees"
+              element={<Attendees />} />
               <Route path="events/:id/chat" element={<Chat />} />
             </Route>
           </Route>
