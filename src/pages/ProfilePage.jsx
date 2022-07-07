@@ -7,7 +7,9 @@ import "./styles/ProfilePage.css";
 
 const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState({});
+  const [editOn, setEditOn] = useState(false);
   const currentUser = useMemo(() => localStorage.username, [localStorage]);
+
   const { username } = useParams();
   const navigate = useNavigate();
 
@@ -37,35 +39,7 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <h1>ProfilePage</h1>
-      <header>
-        <div>
-          <button onClick={handleEdit}>Edit</button>
-        </div>
-        <picture>
-          <img src={userInfo.imageUrl} alt="profile-pic" />
-        </picture>
-      </header>
-      <main>
-        <div>{userInfo.name}</div>
-        {/* <div>City</div> */}
-        {/* <div>
-          <p>Badges</p>
-          <img src="" alt="1" />
-          <img src="" alt="2" />
-          <img src="" alt="3" />
-          <img src="" alt="4" />
-        </div> */}
-        <div className="profile-page-bio-interest">
-          <div>
-            <p>{userInfo.bio}</p>
-          </div>
-          <div>
-            <p>{userInfo.interests}</p>
-          </div>
-        </div>
-      </main>
-
-      <NavbarBottom />
+      
     </div>
   );
 };
