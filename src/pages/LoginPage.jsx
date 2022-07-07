@@ -22,8 +22,9 @@ const theme = createTheme();
 
 export default function LoginPage() {
   const [open, setOpen] = React.useState(false);
-  const [passwordResetIsSuccessful, SetasswordResetIsSuccessful] = React.useState(false);
-  const [errorMsg, setErrorMsg] = React.useState('');
+  const [passwordResetIsSuccessful, SetasswordResetIsSuccessful] =
+    React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState("");
   const [credentials, setCredentials] = React.useState({
     alias: "",
     password: "",
@@ -55,24 +56,26 @@ export default function LoginPage() {
       .then(({ data }) => {
         window.localStorage.setItem(`authToken`, data.authToken);
         window.localStorage.setItem(`username`, data.username);
-        navigate(`/`);
+        navigate(`/events/mine`);
       })
       .catch((err) => {
         console.error(err.response);
-        
+
         if (err.response.status === 404) {
-          setErrorMsg('User does not exist!');
-        } else if (err.response.data.errors.password){
-          setErrorMsg('Wrong password!');
+          setErrorMsg("User does not exist!");
+        } else if (err.response.data.errors.password) {
+          setErrorMsg("Wrong password!");
         } else if (err.response.data.errors.verification) {
-          setErrorMsg('Your account is not yet verified please check your email!');
+          setErrorMsg(
+            "Your account is not yet verified please check your email!"
+          );
         } else {
-          setErrorMsg('Something went wrong!');
+          setErrorMsg("Something went wrong!");
         }
 
         setTimeout(() => {
-          setErrorMsg('');
-        }, 2000)
+          setErrorMsg("");
+        }, 2000);
       });
   }
 
@@ -90,18 +93,18 @@ export default function LoginPage() {
         passwordResetIsSuccessful(true);
         setTimeout(() => {
           passwordResetIsSuccessful(false);
-        }, 2000)
+        }, 2000);
       })
       .catch((err) => {
         if (err.response.status === 404) {
-          setErrorMsg('User does not exist!');
+          setErrorMsg("User does not exist!");
         } else {
-          setErrorMsg('Something went wrong!' );
+          setErrorMsg("Something went wrong!");
         }
 
         setTimeout(() => {
-          setErrorMsg('');
-        }, 2000)
+          setErrorMsg("");
+        }, 2000);
       });
 
     handleClose();
@@ -118,24 +121,14 @@ export default function LoginPage() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        {
-          passwordResetIsSuccessful
-            ?
-            <Alert severity="success">
-              A password reset link was sent to your email!
-            </Alert>
-            :
-            <></>
-        }
-        {
-          errorMsg
-            ?
-            <Alert severity="error">
-              {errorMsg}
-            </Alert>
-            :
-            <></>
-        }
+        {passwordResetIsSuccessful ? (
+          <Alert severity="success">
+            A password reset link was sent to your email!
+          </Alert>
+        ) : (
+          <></>
+        )}
+        {errorMsg ? <Alert severity="error">{errorMsg}</Alert> : <></>}
         <CssBaseline />
         <Box
           sx={{
@@ -216,7 +209,9 @@ export default function LoginPage() {
                         variant="standard"
                         name="alias"
                         value={credentials.alias}
-                        onChange={e => { handleChange(e) }}
+                        onChange={(e) => {
+                          handleChange(e);
+                        }}
                       />
                     </DialogContent>
                     <DialogActions>

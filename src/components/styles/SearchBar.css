@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* border: 1px solid red; */
+}
+
+/* Mobile */
+.search-bar {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tablet  */
+@media (min-width: 600px) {
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+}

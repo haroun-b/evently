@@ -1,9 +1,34 @@
-.event-page {
-  display: flex;
-  flex-direction: column;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-header {
+/* Mobile */
+.event-page {
+  border: 1px solid black;
+}
+
+.event-page img {
+  border: 1px solid black;
+  width: 100vw
+}
+
+
+
+/* Tablet  */
+@media (min-width: 600px) {
+  .event-page img {
+    border: 1px solid black;
+    width: 200px
+  }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+}
+
+/* header {
   display: flex;
   flex-direction: column;
 }
@@ -11,14 +36,9 @@ header {
 .event-page-edit-button {
   position: absolute;
   margin: 5px;
-}
+} */
 
-.event-page picture {
-  border: 1px solid black;
-  height: 100px;
-}
-
-main {
+/* main {
   padding: 5px;
 }
 
@@ -66,4 +86,4 @@ main {
 
 .event-page-attend-button button {
   padding: 4px 12px;
-}
+} */

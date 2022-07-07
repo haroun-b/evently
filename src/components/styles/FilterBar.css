@@ -1,7 +1,7 @@
 .filter-bar-events-attendees {
-  border: 1px solid black;
+  border-bottom: 1px solid black;
   display: flex;
   justify-content: left;
   gap: .6125rem;
-  padding: 0 5px;
+  padding: 5px 5px;
 }

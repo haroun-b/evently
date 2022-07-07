@@ -33,7 +33,7 @@ function App() {
               <Route path="events/create" element={<CreateEvent />} />
             </Route>
 
-            <Route path="" element={<EventLayout />}>
+            <Route path="/" element={<EventLayout />}>
               <Route path="events/:id" element={<Event currentUser={username} />} />
               <Route
               path="events/:id/attendees"
