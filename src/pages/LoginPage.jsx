@@ -22,7 +22,8 @@ const theme = createTheme();
 
 export default function LoginPage() {
   const [open, setOpen] = React.useState(false);
-  const [passwordReset, setPasswordReset] = React.useState({});
+  const [passwordResetIsSuccessful, SetasswordResetIsSuccessful] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState('');
   const [credentials, setCredentials] = React.useState({
     alias: "",
     password: "",
@@ -57,8 +58,21 @@ export default function LoginPage() {
         navigate(`/`);
       })
       .catch((err) => {
-        console.error(err);
-        // TODO: display appropriate error based on error response
+        console.error(err.response);
+        
+        if (err.response.status === 404) {
+          setErrorMsg('User does not exist!');
+        } else if (err.response.data.errors.password){
+          setErrorMsg('Wrong password!');
+        } else if (err.response.data.errors.verification) {
+          setErrorMsg('Your account is not yet verified please check your email!');
+        } else {
+          setErrorMsg('Something went wrong!');
+        }
+
+        setTimeout(() => {
+          setErrorMsg('');
+        }, 2000)
       });
   }
 
@@ -73,21 +87,20 @@ export default function LoginPage() {
       data: { email: credentials.alias },
     })
       .then(() => {
-        setPasswordReset({isSuccessful: true});
+        passwordResetIsSuccessful(true);
         setTimeout(() => {
-          setPasswordReset({ isSuccessful: false });
+          passwordResetIsSuccessful(false);
         }, 2000)
       })
       .catch((err) => {
-        console.error(err)
-        if (err.status === 404) {
-          setPasswordReset({ errorMsg: 'Email does not exist!' });
+        if (err.response.status === 404) {
+          setErrorMsg('User does not exist!');
         } else {
-          setPasswordReset({ errorMsg: 'Something went wrong!' });
+          setErrorMsg('Something went wrong!' );
         }
 
         setTimeout(() => {
-          setPasswordReset({});
+          setErrorMsg('');
         }, 2000)
       });
 
@@ -106,7 +119,7 @@ export default function LoginPage() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         {
-          passwordReset.isSuccessful
+          passwordResetIsSuccessful
             ?
             <Alert severity="success">
               A password reset link was sent to your email!
@@ -115,10 +128,10 @@ export default function LoginPage() {
             <></>
         }
         {
-          passwordReset.errorMsg
+          errorMsg
             ?
             <Alert severity="error">
-              {passwordReset.errorMsg}
+              {errorMsg}
             </Alert>
             :
             <></>
