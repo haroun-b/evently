@@ -79,9 +79,11 @@ const EventPage = ({ currentUser }) => {
   }
 
   return (
+    <>
     <Stack
       sx={{
-        textAlign: 'left'
+        textAlign: 'left',
+        marginBottom: '5rem'
       }}
     >
       <Stack className="topActionBar">
@@ -93,6 +95,7 @@ const EventPage = ({ currentUser }) => {
         alt={event.title}
         style={{
           height: '5%',
+          marginBottom: '1rem'
         }}
       />
 
@@ -129,6 +132,9 @@ const EventPage = ({ currentUser }) => {
         justifyContent="center"
         alignItems="center"
         spacing={0}
+        sx={{
+          marginTop: '2rem'
+        }}
       >
         <Stack
           direction="column"
@@ -183,12 +189,32 @@ const EventPage = ({ currentUser }) => {
           </AvatarGroup>
         </Stack>
       </Stack>
-
-      <AttendActionBar
-        {...handlers}
-        attendanceStatus={event.myStatus}
-      />
     </Stack>
+
+    <Stack className="eventParticipents"
+        direction="row"
+        justifyContent="space-around"
+        alignItems="center"
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          height: '4rem',
+          backgroundColor: '#fff',
+          border: '1px solid #000'
+        }}
+      >
+        <Typography variant="h5" component="h2">
+          {event.price || 'Free'}
+        </Typography>
+
+        <AttendActionBar
+          {...handlers}
+          attendanceStatus={event.myStatus}
+        />
+      </Stack>
+      </>
   );
 };
 
