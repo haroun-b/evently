@@ -16,11 +16,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
 export default function LoginPage() {
   const [open, setOpen] = React.useState(false);
+  const [passwordResetIsSuccessful, SetasswordResetIsSuccessful] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState('');
   const [credentials, setCredentials] = React.useState({
     alias: "",
     password: "",
@@ -55,8 +58,21 @@ export default function LoginPage() {
         navigate(`/`);
       })
       .catch((err) => {
-        console.error(err);
-        // TODO: display appropriate error based on error response
+        console.error(err.response);
+        
+        if (err.response.status === 404) {
+          setErrorMsg('User does not exist!');
+        } else if (err.response.data.errors.password){
+          setErrorMsg('Wrong password!');
+        } else if (err.response.data.errors.verification) {
+          setErrorMsg('Your account is not yet verified please check your email!');
+        } else {
+          setErrorMsg('Something went wrong!');
+        }
+
+        setTimeout(() => {
+          setErrorMsg('');
+        }, 2000)
       });
   }
 
@@ -66,13 +82,27 @@ export default function LoginPage() {
 
   const handleForgotPassowrd = () => {
     axios({
-      method: "POST",
+      method: "PATCH",
       url: `https://the-evently-api.herokuapp.com/reset-password`,
-      data: request,
-    }).catch((err) => {
-      console.error(err);
-      // TODO: display appropriate error based on error response
-    });
+      data: { email: credentials.alias },
+    })
+      .then(() => {
+        passwordResetIsSuccessful(true);
+        setTimeout(() => {
+          passwordResetIsSuccessful(false);
+        }, 2000)
+      })
+      .catch((err) => {
+        if (err.response.status === 404) {
+          setErrorMsg('User does not exist!');
+        } else {
+          setErrorMsg('Something went wrong!' );
+        }
+
+        setTimeout(() => {
+          setErrorMsg('');
+        }, 2000)
+      });
 
     handleClose();
   };
@@ -88,6 +118,24 @@ export default function LoginPage() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
+        {
+          passwordResetIsSuccessful
+            ?
+            <Alert severity="success">
+              A password reset link was sent to your email!
+            </Alert>
+            :
+            <></>
+        }
+        {
+          errorMsg
+            ?
+            <Alert severity="error">
+              {errorMsg}
+            </Alert>
+            :
+            <></>
+        }
         <CssBaseline />
         <Box
           sx={{
@@ -166,6 +214,9 @@ export default function LoginPage() {
                         type="email"
                         fullWidth
                         variant="standard"
+                        name="alias"
+                        value={credentials.alias}
+                        onChange={e => { handleChange(e) }}
                       />
                     </DialogContent>
                     <DialogActions>
@@ -183,7 +234,6 @@ export default function LoginPage() {
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );
