@@ -20,7 +20,7 @@ import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
-export default function LoginPage() {
+export default function LoginPage({setCurrentUser}) {
   const [open, setOpen] = React.useState(false);
   const [passwordResetIsSuccessful, setPasswordResetIsSuccessful] =
     React.useState(false);
@@ -54,8 +54,11 @@ export default function LoginPage() {
       data: request,
     })
       .then(({ data }) => {
+        const {authToken, username} = data;
+        
         window.localStorage.setItem(`authToken`, data.authToken);
         window.localStorage.setItem(`username`, data.username);
+        setCurrentUser({authToken, username});
         navigate(`/events/mine`);
       })
       .catch((err) => {
