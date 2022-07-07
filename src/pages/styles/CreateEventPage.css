@@ -1,8 +1,37 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mobile */
 .create-event-page {
+  margin: 50px;
   margin-bottom: 80px;
 }
 
-.create-event-form {
+.create-event-button {
+  margin: 10px;
+}
+
+.create-event-form .suggestion-list {
+  border-left: 1px solid rgb(150, 150, 150);
+  border-right: 1px solid rgb(150, 150, 150);
+  border-bottom: 1px solid rgb(150, 150, 150);
+}
+
+/* Tablet  */
+@media (min-width: 600px) {
+  .create-event-page {
+    margin: 100px 20vw;
+  }
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+}
+
+/* .create-event-form {
   display: flex;
   flex-direction: column;
   margin: 10px;
@@ -18,14 +47,4 @@
   display: flex;
   flex-direction: column;
 
-}
-
-.create-event-form .suggestion-list {
-  width: inherit;
-  border: 1px solid black;
-  list-style-type: none;
-}
-
-.create-event-form .suggestion-list > * {
-  font-size: 0.8rem;
-}
+} */

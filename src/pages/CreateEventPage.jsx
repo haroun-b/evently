@@ -97,8 +97,8 @@ const CreateEventPage = () => {
       postcode: "",
       city: "",
     },
-    startAt: "",
-    endAt: "",
+    startAt: null,
+    endAt: null,
     minimum: "",
     maximum: "",
     attendees: {
@@ -136,7 +136,6 @@ const CreateEventPage = () => {
 
   return (
     <div className="create-event-page">
-      <h1>CreateEventPage</h1>
       <form className="create-event-form">
         {formFields.map(({ component: Component, ...formField }) => (
           <Component
@@ -147,7 +146,7 @@ const CreateEventPage = () => {
           />
         ))}
 
-        <Button variant="contained" disableElevation onClick={handleSubmit}>
+        <Button className="create-event-button" variant="contained" disableElevation onClick={handleSubmit}>
           Create event
         </Button>
       </form>
@@ -158,166 +157,3 @@ const CreateEventPage = () => {
 };
 
 export default CreateEventPage;
-
-{
-  /* <div className="group-input">
-          <label htmlFor="title">Title: </label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            value={formData.title}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                title: event.target.value,
-              });
-            }}
-            required
-          />
-        </div>
-
-        <AddressLookupInput formData={formData} setFormData={setFormData} />
-
-        <div className="group-input">
-          <label htmlFor="startAt">Start at: </label>
-          <input
-            type="datetile-local"
-            name="startAt"
-            id="startAt"
-            value={formData.startAt}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                startAt: event.target.value,
-              });
-            }}
-            required
-          />
-        </div>
-
-        <div className="group-input">
-          <label htmlFor="endAt">End at: </label>
-          <input
-            type="datetime-local"
-            name="endAt"
-            id="endAt"
-            value={formData.endAt}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                endAt: event.target.value,
-              });
-            }}
-            required
-          />
-        </div>
-
-        <div className="group-input">
-          <label htmlFor="minAttendees">Minimum attendees: </label>
-          <input
-            type="number"
-            name="minAttendees"
-            id="minAttendees"
-            value={formData.attendees.minimum}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                attendees: { ...attendees, minimum: event.target.value },
-              });
-            }}
-          />
-        </div>
-
-        <div className="group-input">
-          <label htmlFor="maxAttendees">Maximum attendees: </label>
-          <input
-            type="number"
-            name="maxAttendees"
-            id="maxAttendees"
-            value={formData.attendees.maximum}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                attendees: { ...attendees, maximum: event.target.value },
-              });
-            }}
-          />
-        </div>
-
-        <div className="group-input">
-          <label htmlFor="price">Price: </label>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            value={formData.price}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                price: event.target.value,
-              });
-            }}
-            min="0"
-            step="0.05"
-          />
-        </div>
-
-        <div className="group-input">
-          <label htmlFor="category">Category: </label>
-          <select
-            name="category"
-            id="category"
-            value={formData.category}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                category: event.target.value,
-              });
-            }}
-            required
-          >
-            <option value="">--Please choose an option--</option>
-            {categories.map((option) => {
-              return (
-                <option key={option} value={option}>
-                  {capitalizeFirstLetter(option)}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-
-        <div className="group-input">
-          <label htmlFor="description">Description: </label>
-          <textarea
-            name="description"
-            id="description"
-            cols="30"
-            rows="10"
-            value={formData.description}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                description: event.target.value,
-              });
-            }}
-          ></textarea>
-        </div>
-
-        <div className="group-input">
-          <label htmlFor="requiredApproval">Approval required:</label>
-          <input
-            type="checkbox"
-            name="requiredApproval"
-            id="requiredApproval"
-            value={formData.requireApproval}
-            onChange={(event) => {
-              setFormData({
-                ...formData,
-                requireApproval: event.target.value,
-              });
-            }}
-          />
-        </div> */
-}
