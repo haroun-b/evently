@@ -34,7 +34,7 @@ export default function SignupPage() {
 
     axios({
       method: "POST",
-      url: `http://localhost:3001/signup`,
+      url: `https://the-evently-api.herokuapp.com/signup`,
       data: credentials,
     })
       .then((res) => {

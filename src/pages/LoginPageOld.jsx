@@ -27,7 +27,7 @@ const LoginPage = () => {
 
     axios({
       method: "POST",
-      url: `http://localhost:3001/login`,
+      url: `https://the-evently-api.herokuapp.com/login`,
       data: request,
     })
       .then(({ data }) => {
