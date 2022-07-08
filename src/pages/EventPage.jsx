@@ -172,7 +172,7 @@ const EventPage = ({ currentUser }) => {
               justifyContent="flex-start"
               alignItems="center"
               sx={{
-                width: "50%",
+                width: "50vw",
                 height: "5rem",
                 padding: ".3rem",
                 backgroundColor: "#fff",
@@ -196,7 +196,7 @@ const EventPage = ({ currentUser }) => {
               justifyContent="flex-start"
               alignItems="center"
               sx={{
-                width: "50%",
+                width: "50vw",
                 height: "5rem",
                 padding: ".3rem",
                 backgroundColor: "#fff",

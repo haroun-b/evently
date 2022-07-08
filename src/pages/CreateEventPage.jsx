@@ -150,8 +150,6 @@ const CreateEventPage = () => {
           Create event
         </Button>
       </form>
-
-      <NavbarBottom />
     </div>
   );
 };

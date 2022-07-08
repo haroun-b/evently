@@ -14,9 +14,9 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 import './styles/SearchBar.css'
+import { MobileDateTimePicker } from '@mui/lab';
 
 // TODO: breakdown searchbar into components
 const SearchBar = ({ setEvents }) => {
@@ -98,167 +98,178 @@ const SearchBar = ({ setEvents }) => {
   return (
     <div className='search-bar'>
 
-    <form onSubmit={handleSubmit} className='search-form'>
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
-        <TuneIcon
-          onClick={() => setFiltersAreOpen(!filtersAreOpen)}
-        />
-        <TextField
-          label="Search"
-          type="search"
-          name="search"
-          value={search}
-          onChange={e => handleChange(e)}
-        />
-
-        <TextField
-          label="City"
-          name="city"
-          value={city}
-          onChange={e => handleChange(e)}
-        />
-
-        <MyLocationIcon
-          onClick={() => getCurrentLocation()}
-        />
-
-        <LoadingButton
-          onClick={handleSubmit}
-          endIcon={<SearchIcon />}
-          loading={loading}
-          loadingPosition="end"
-          variant="contained"
+      <form onSubmit={handleSubmit} className='search-form'>
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+          maxWidth="100%"
+          paddingTop="2rem"
         >
-          Search
-        </LoadingButton>
-      </Stack>
+          <TextField
+            label="Search"
+            type="search"
+            name="search"
+            value={search}
+            onChange={e => handleChange(e)}
+          />
 
-      <>
-        {
-          filtersAreOpen
-          &&
+          <TextField
+            label="City"
+            name="city"
+            value={city}
+            onChange={e => handleChange(e)}
+          />
+
           <Stack
-            direction="column"
+            direction="row"
             justifyContent="center"
             alignItems="center"
             spacing={2}
+            paddingBottom="1rem"
           >
-            <fieldset
-              style={{ width: 800, margin: '0 auto', padding: '0 2rem', borderRadius: 5 }}
-            >
-              <legend
-              style={{color: '#4e4e4e', padding: '.2rem', fontSize: '.8rem' }}
-              >Search Radius</legend>
-              <Slider
-                size="small"
-                aria-label="search radius"
-                valueLabelDisplay="auto"
-                name="searchRadius"
-                min={1}
-                max={100}
-                value={searchRadius}
-                onChange={e => handleChange(e)}
-              />
-            </fieldset>
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                renderInput={(props) => <TextField {...props} />}
-                label="Starts After"
-                name="startAfter"
-                value={startAfter}
-                minDateTime={Date.now()}
-                onChange={(newValue) => {
-                  setFilterQuery({ ...filterQuery, startAfter: newValue });
-                }}
-              />
-
-              <DateTimePicker
-                renderInput={(props) => <TextField {...props} />}
-                label="Ends Before"
-                name="endBefore"
-                value={endBefore}
-                minDateTime={startAfter || Date.now()}
-                onChange={(newValue) => {
-                  setFilterQuery({ ...filterQuery, endBefore: newValue });
-                }}
-              />
-            </LocalizationProvider>
-
-
-
-            <label htmlFor="maxPrice">Maximum price</label>
-            <input
-              type="number"
-              name="maxPrice"
-              min="0"
-              value={maxPrice}
+            <TuneIcon
+              onClick={() => setFiltersAreOpen(!filtersAreOpen)}
             />
 
-            <label htmlFor="category">Category</label>
-            <select
-              name="category"
-              value={category}
-              onChange={e => handleChange(e)}
-            >
-              <option value="">--Please choose an option--</option>
-
-              {
-                // TODO: get categories from db
-                categories.map(category => {
-                  return <option value={category}>{category}</option>;
-                })
-              }
-            </select>
-
-            <input
-              type="checkbox"
-              name="requiresApproval"
-              value={requiresApproval}
-              onChange={e => {
-                setFilterQuery({ ...filterQuery, [e.target.name]: e.target.checked });
-              }}
+            <MyLocationIcon
+              onClick={() => getCurrentLocation()}
             />
-            <label htmlFor="requiresApproval">Requires approval</label>
 
-            <fieldset>
-              <input
-                type="radio"
-                name="isGroupEvent"
-                id="all"
-                value=""
-                onChange={e => handleChange(e)}
-              />
-              <label htmlFor="all">All</label>
-
-              <input
-                type="radio"
-                name="isGroupEvent"
-                id="goupOnly"
-                value={true}
-                onChange={e => handleChange(e)}
-              />
-              <label htmlFor="groupOnly">Group only</label>
-
-              <input
-                type="radio"
-                name="isGroupEvent"
-                id="duoOnly"
-                value={false}
-                onChange={e => handleChange(e)}
-              />
-              <label htmlFor="duoOnly">One on one only</label>
-            </fieldset>
-
+            <LoadingButton
+              onClick={handleSubmit}
+              endIcon={<SearchIcon />}
+              loading={loading}
+              loadingPosition="end"
+              variant="contained"
+            >
+              Search
+            </LoadingButton>
           </Stack>
-        }
-      </>
-    </form>
+        </Stack>
+
+        <>
+          {
+            filtersAreOpen
+            &&
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={1}
+              marginTop="2rem"
+            >
+              <fieldset
+                style={{ width: '100%', margin: '0 auto', padding: '0 2rem', borderRadius: 5 }}
+              >
+                <legend
+                  style={{ color: '#4e4e4e', padding: '.2rem', fontSize: '.8rem' }}
+                >Search Radius</legend>
+                <Slider
+                  size="small"
+                  aria-label="search radius"
+                  valueLabelDisplay="auto"
+                  name="searchRadius"
+                  min={1}
+                  max={100}
+                  value={searchRadius}
+                  onChange={e => handleChange(e)}
+                />
+              </fieldset>
+
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <MobileDateTimePicker
+                  renderInput={(props) => <TextField {...props} />}
+                  label="Starts After"
+                  name="startAfter"
+                  value={startAfter}
+                  minDateTime={Date.now()}
+                  onChange={(newValue) => {
+                    setFilterQuery({ ...filterQuery, startAfter: newValue });
+                  }}
+                />
+
+                <MobileDateTimePicker
+                  renderInput={(props) => <TextField {...props} />}
+                  label="Ends Before"
+                  name="endBefore"
+                  value={endBefore}
+                  minDateTime={startAfter || Date.now()}
+                  onChange={(newValue) => {
+                    setFilterQuery({ ...filterQuery, endBefore: newValue });
+                  }}
+                />
+              </LocalizationProvider>
+
+
+
+              <label htmlFor="maxPrice">Maximum price</label>
+              <input
+                type="number"
+                name="maxPrice"
+                min="0"
+                value={maxPrice}
+              />
+
+              <label htmlFor="category">Category</label>
+              <select
+                name="category"
+                value={category}
+                onChange={e => handleChange(e)}
+              >
+                <option value="">--Please choose an option--</option>
+
+                {
+                  categories.map(category => {
+                    return <option value={category}>{category}</option>;
+                  })
+                }
+              </select>
+
+              <input
+                type="checkbox"
+                name="requiresApproval"
+                value={requiresApproval}
+                onChange={e => {
+                  setFilterQuery({ ...filterQuery, [e.target.name]: e.target.checked });
+                }}
+              />
+              <label htmlFor="requiresApproval">Requires approval</label>
+
+              <fieldset>
+                <input
+                  type="radio"
+                  name="isGroupEvent"
+                  id="all"
+                  value=""
+                  onChange={e => handleChange(e)}
+                />
+                <label htmlFor="all">All</label>
+
+                <input
+                  type="radio"
+                  name="isGroupEvent"
+                  id="goupOnly"
+                  value={true}
+                  onChange={e => handleChange(e)}
+                />
+                <label htmlFor="groupOnly">Group only</label>
+
+                <input
+                  type="radio"
+                  name="isGroupEvent"
+                  id="duoOnly"
+                  value={false}
+                  onChange={e => handleChange(e)}
+                />
+                <label htmlFor="duoOnly">One on one only</label>
+              </fieldset>
+
+            </Stack>
+          }
+        </>
+      </form>
     </div>
   );
 };

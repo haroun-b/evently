@@ -61,7 +61,6 @@ const MyEventsPage = () => {
         console.log('event', event)
         return <EventCard key={event._id} {...event} />;
       })}
-      <NavbarBottom />
     </div>
   );
 };

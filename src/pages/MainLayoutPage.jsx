@@ -4,10 +4,12 @@ import NavbarBottom from '../components/NavbarBottom';
 
 const MainLayout = ({ currentUser }) => {
   return (
-    <>
+    <div
+    style={{marginBottom: '5rem'}}
+    >
       <Outlet />
       <NavbarBottom {...{currentUser}} />
-    </>
+    </div>
   )
 }
 
