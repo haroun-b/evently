@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 import Signup from "./pages/SignupPage";
 import Login from "./pages/LoginPage";
@@ -15,11 +15,15 @@ import EventLayout from "./pages/EventLayoutPage";
 import Verify from "./pages/VerifyPage";
 import NotFound from "./pages/NotFoundPage";
 import Oops from "./pages/OopsPage";
-import { useMemo } from "react";
+import { useState } from "react";
 
 function App() {
-  const { username, authToken } = useMemo(() => localStorage, [localStorage]);
+  const [currentUser, setCurrentUser] = useState({
+    username: localStorage.username,
+    authToken: localStorage.authToken
+  })
 
+  const { username, authToken } = currentUser;
 
   return (
     <div className="App">
@@ -36,16 +40,24 @@ function App() {
             <Route path="/" element={<EventLayout />}>
               <Route path="events/:id" element={<Event currentUser={username} />} />
               <Route
-              path="events/:id/attendees"
-              element={<Attendees />} />
+                path="events/:id/attendees"
+                element={<Attendees />} />
               <Route path="events/:id/chat" element={<Chat />} />
             </Route>
           </Route>
 
 
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/verify" element={<Verify />} />
+          <Route path="/signup" element={
+            authToken ? <Navigate to="/events/mine" /> : <Signup />
+          } />
+          <Route path="/login" element={
+            authToken ?
+              <Navigate to="/events/mine" /> :
+              <Login {...{ setCurrentUser }} />
+          } />
+          <Route path="/verify" element={
+            authToken ? <Navigate to="/events/mine" /> : <Verify />
+          } />
           <Route path="*" element={<NotFound />} />
           <Route path="500" element={<Oops />} />
         </Routes>
