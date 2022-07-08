@@ -50,7 +50,7 @@ export default function LoginPage({setCurrentUser}) {
 
     axios({
       method: "POST",
-      url: `http://localhost:3001/login`,
+      url: `https://the-evently-api.herokuapp.com/login`,
       data: request,
     })
       .then(({ data }) => {
@@ -89,7 +89,7 @@ export default function LoginPage({setCurrentUser}) {
   const handleForgotPassowrd = () => {
     axios({
       method: "PATCH",
-      url: `http://localhost:3001/reset-password`,
+      url: `https://the-evently-api.herokuapp.com/reset-password`,
       data: { email: credentials.alias },
     })
       .then(() => {
