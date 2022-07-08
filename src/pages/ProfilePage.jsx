@@ -80,7 +80,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <h1>ProfilePage</h1>
+      <h1>My Profile</h1>
 
       <Stack
         direction="row"

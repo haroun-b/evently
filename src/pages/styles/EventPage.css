@@ -6,12 +6,12 @@
 
 /* Mobile */
 .event-page {
-  border: 1px solid black;
 }
 
 .event-page img {
-  border: 1px solid black;
-  width: 100vw
+  padding: 20px;
+  width: 200px;
+
 }
 
 

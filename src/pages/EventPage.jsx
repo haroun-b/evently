@@ -246,7 +246,7 @@ const EventPage = ({ currentUser }) => {
           }}
         >
           <Typography variant="h5" component="h2">
-            {event.price || "Free"}
+             {event.price ? `$ ${event.price}` : "Free"} 
           </Typography>
 
           <AttendActionBar {...handlers} attendanceStatus={event.myStatus} />

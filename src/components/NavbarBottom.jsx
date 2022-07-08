@@ -47,50 +47,49 @@ const NavbarBottom = ({ currentUser }) => {
         navigate(`/events/create`);
         break;
       case "profile":
+        console.log(currentUser)
         navigate(`/users/${currentUser}`);
         break;
     }
   };
 
   return (
-    <div className="navbar-container">
-      <Box
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          borderTop: "1px solid #000",
-          zIndex: 1,
-        }}
-      >
-        <BottomNavigation value={current} onChange={handleChange}>
-          <BottomNavigationAction
-            label="My Events"
-            value="myEvents"
-            icon={<CalendarMonthIcon />}
-          />
+    <Box
+      sx={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        borderTop: "1px solid #000",
+        zIndex: 1,
+      }}
+    >
+      <BottomNavigation value={current} onChange={handleChange}>
+        <BottomNavigationAction
+          label="My Events"
+          value="myEvents"
+          icon={<CalendarMonthIcon />}
+        />
 
-          <BottomNavigationAction
-            label="Find"
-            value="find"
-            icon={<SearchIcon />}
-          />
+        <BottomNavigationAction
+          label="Find"
+          value="find"
+          icon={<SearchIcon />}
+        />
 
-          <BottomNavigationAction
-            label="Create"
-            value="create"
-            icon={<AddCircleOutlineIcon />}
-          />
+        <BottomNavigationAction
+          label="Create"
+          value="create"
+          icon={<AddCircleOutlineIcon />}
+        />
 
-          <BottomNavigationAction
-            label="Profile"
-            value="profile"
-            icon={<PermIdentityIcon />}
-          />
-        </BottomNavigation>
-      </Box>
-    </div>
+        <BottomNavigationAction
+          label="Profile"
+          value="profile"
+          icon={<PermIdentityIcon />}
+        />
+      </BottomNavigation>
+    </Box>
   );
 };
 

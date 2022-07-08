@@ -1,44 +1,41 @@
-import * as React from 'react';
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Stack from '@mui/material/Stack';
-import { CardActionArea } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Stack from "@mui/material/Stack";
+import { CardActionArea } from "@mui/material";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
 }));
 
-
-const EventCard = (
-  {
-    _id,
-    title,
-    price,
-    imageUrl,
-    description,
-    startAt,
-    endAt,
-    creator,
-    address: { city }
-  }
-) => {
+const EventCard = ({
+  _id,
+  title,
+  price,
+  imageUrl,
+  description,
+  startAt,
+  endAt,
+  creator,
+  address: { city },
+}) => {
   startAt = startAt.slice(0, -8);
   endAt = endAt.slice(0, -8);
 
@@ -50,12 +47,14 @@ const EventCard = (
   };
 
   return (
-    <Card 
-    key={_id} 
-    sx={{ maxWidth: "100%", textAlign: `left`, margin: `1.8rem 3rem` }}
+    <Card
+      key={_id}
+      sx={{ maxWidth: "100%", textAlign: `left`, margin: `1.8rem 3rem` }}
     >
       <CardActionArea
-        onClick={() => { navigate(`/events/${_id}`) }}
+        onClick={() => {
+          navigate(`/events/${_id}`);
+        }}
       >
         <Stack
           direction="row"
@@ -65,20 +64,23 @@ const EventCard = (
           <CardHeader
             sx={{ maxWidth: `100%` }}
             title={title}
-            subheader={`${startAt} - ${endAt}`}
+            // subheader={`${(new Date(startAt)).toDateString()} - ${(new Date(startAt)).toDateString()}`}
+            subheader={`From ${(new Intl.DateTimeFormat("en-GB", {
+              dateStyle: "full",
+              timeStyle: "long",
+            }).format(new Date(startAt))).slice(0, -4)} to ${(new Intl.DateTimeFormat("en-GB", {
+              dateStyle: "full",
+              timeStyle: "long",
+            }).format(new Date(endAt))).slice(0, -4)}`}
           />
           <CardHeader
-            title={price || 'Free'}
+            sx={{ maxWidth: `100%` }}
+            title={price ? `$ ${price}` : "Free"}
             subheader={city}
           />
         </Stack>
 
-        <CardMedia
-          component="img"
-          height="194"
-          image={imageUrl}
-          alt={title}
-        />
+        <CardMedia component="img" height="194" image={imageUrl} alt={title} />
       </CardActionArea>
 
       <CardActions disableSpacing>
@@ -101,7 +103,9 @@ const EventCard = (
       </Collapse>
 
       <CardActions
-        onClick={() => { navigate(`/users/${creator.username}`)}}
+        onClick={() => {
+          navigate(`/users/${creator.username}`);
+        }}
       >
         <Stack
           direction="row"
@@ -109,7 +113,7 @@ const EventCard = (
           alignItems="flex-end"
           spacing={1}
           marginLeft="auto"
-          sx={{cursor: `pointer`}}
+          sx={{ cursor: `pointer` }}
         >
           <Typography variant="button" display="block" gutterBottom>
             {creator.name}
@@ -119,6 +123,6 @@ const EventCard = (
       </CardActions>
     </Card>
   );
-}
+};
 
-export default EventCard
+export default EventCard;
