@@ -20,7 +20,7 @@ const SignupPage = () => {
 
     axios({
       method: 'POST',
-      url: `https://the-evently-api.herokuapp.com/signup`,
+      url: `http://localhost:3001/signup`,
       data: credentials,
     })
       .then((res) => {

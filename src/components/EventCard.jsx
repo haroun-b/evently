@@ -50,7 +50,10 @@ const EventCard = (
   };
 
   return (
-    <Card sx={{ maxWidth: "100%", textAlign: `left`, margin: `1.8rem 3rem` }}>
+    <Card 
+    key={_id} 
+    sx={{ maxWidth: "100%", textAlign: `left`, margin: `1.8rem 3rem` }}
+    >
       <CardActionArea
         onClick={() => { navigate(`/events/${_id}`) }}
       >
@@ -76,29 +79,29 @@ const EventCard = (
           image={imageUrl}
           alt={title}
         />
-
-        <CardActions disableSpacing>
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
-
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography variant="body1" color="text.secondary">
-              {description}
-            </Typography>
-          </CardContent>
-        </Collapse>
       </CardActionArea>
 
+      <CardActions disableSpacing>
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography variant="body1" color="text.secondary">
+            {description}
+          </Typography>
+        </CardContent>
+      </Collapse>
+
       <CardActions
-        onClick={() => { navigate(`/${creator.username}`)}}
+        onClick={() => { navigate(`/users/${creator.username}`)}}
       >
         <Stack
           direction="row"
